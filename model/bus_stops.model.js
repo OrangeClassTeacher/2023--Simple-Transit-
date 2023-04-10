@@ -1,13 +1,14 @@
 const { default: mongoose } = require("mongoose")
 
-const categorySchema = mongoose.Schema({
-    CategoryName: String,
+const busstopSchema = mongoose.Schema({
+    busstopName: String,
+    busstopCoordinates: [Array],
+    busstopId: {
+        unique: true, type: String
+    }
 },
-    {
-        collection: "clCategory",
-        timestamps: true
-    })
+)
 
 
-const Category = mongoose.model("Category", categorySchema);
-module.exports = Category;
+const busstop = mongoose.model("busstop", busstopSchema);
+module.exports = busstop;
