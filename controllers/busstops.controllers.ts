@@ -1,6 +1,7 @@
-const busstop = require("../model/bus_stops.model")
+import { Request, Response } from "express"
+import busstop from "../model/bus_stops.model";
 
-exports.create = async (req, res) => {
+const create = async (req: Request, res: Response) => {
     try {
         const result = await busstop.create(req.body)
         res.json({ status: true, result })
@@ -9,7 +10,7 @@ exports.create = async (req, res) => {
     }
 }
 
-exports.getAll = async (req, res) => {
+const getAll = async (req: Request, res: Response) => {
     try {
         const result = await busstop.find({})
         res.json({ status: true, result })
@@ -18,3 +19,5 @@ exports.getAll = async (req, res) => {
         res.json({ status: "false", message: err })
     }
 }
+
+export { getAll, create };
