@@ -2,12 +2,10 @@ import express, { Request, Response } from 'express';
 import dotenv from "dotenv";
 import cors from "cors";
 import mongoose from "mongoose";
+import userRoutes from "./routers/user.router"
 
 import busRoutes from "./routers/busstop.router"
 
-// const cors = require("cors");
-// const dotenv = require("dotenv")
-// const busRoutes = require("./routers/busstop.router")
 
 
 dotenv.config()
@@ -27,6 +25,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api", busRoutes);
+app.use("/api", userRoutes);
 
 app.get("/api", (req: Request, res: Response) => {
   res.json({ message: "Success" });
