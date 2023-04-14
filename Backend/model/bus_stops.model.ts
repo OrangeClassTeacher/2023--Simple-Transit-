@@ -17,6 +17,7 @@ const busstopSchema = new Schema<IBusroute>({
         {
             busStopName: String,
             busStopCoord: [Number]
+
         }],
     busRouteId: {
         unique: true, type: String
