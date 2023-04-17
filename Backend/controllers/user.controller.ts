@@ -4,7 +4,7 @@ import { Request, Response } from "express"
 import { Interface } from "readline"
 
 const saltRounds = 10;
-interface user {
+interface IUser {
     name: string;
     email: string;
     password: string;
@@ -31,7 +31,7 @@ const Login = async (req: Request, res: Response) => {
     try {
 
         const { email, password } = req.body
-        let user = await User.findOne({ email: email })
+        let user: any = await User.findOne({ email: email })
 
         if (email == user.email) {
             const decrypt = await bcrypt.compare(

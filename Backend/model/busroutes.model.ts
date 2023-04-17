@@ -11,7 +11,7 @@ interface IBusroute {
     busRouteId: string;
 }
 
-const busstopSchema = new Schema<IBusroute>({
+const busRouteSchema = new Schema<IBusroute>({
     busRouteName: String,
     busStopDetails: [
         {
@@ -26,6 +26,6 @@ const busstopSchema = new Schema<IBusroute>({
 )
 
 
-const busstop = model("busstop", busstopSchema);
+const busroute = model("busroute", busRouteSchema);
 
-export default busstop;
+export default busroute;

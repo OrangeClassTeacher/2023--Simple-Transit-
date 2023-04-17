@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import busstop from "../model/bus_stops.model";
+import busstop from "../model/busstops.model";
 
 const create = async (req: Request, res: Response) => {
     try {

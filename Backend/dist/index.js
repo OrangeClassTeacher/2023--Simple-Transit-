@@ -7,6 +7,8 @@ const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const busroute_router_1 = __importDefault(require("./routers/busroute.router"));
+const user_router_1 = __importDefault(require("./routers/user.router"));
 const busstop_router_1 = __importDefault(require("./routers/busstop.router"));
 // const cors = require("cors");
 // const dotenv = require("dotenv")
@@ -21,6 +23,8 @@ const app = (0, express_1.default)();
 const port = process.env.PORT;
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
+app.use("/api", busroute_router_1.default);
+app.use("/api", user_router_1.default);
 app.use("/api", busstop_router_1.default);
 app.get("/api", (req, res) => {
     res.json({ message: "Success" });
