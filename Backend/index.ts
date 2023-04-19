@@ -8,9 +8,9 @@ import userRoutes from "./routers/user.router"
 import busStops from "./routers/busstop.router"
 // const cors = require("cors");
 // const dotenv = require("dotenv")
-// const busRoutes = require("./routers/busstop.router")
+// const busRoutes = require("./routers/busstop.router") 
 
-
+ 
 dotenv.config()
 
 const url: string = process.env.MONGO_DB_URI || ""
