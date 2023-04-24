@@ -2,7 +2,7 @@ import "./App.css";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 
-import { GoogleMap, Marker, useLoadScript, Polyline } from '@react-google-maps/api';
+import { GoogleMap, useLoadScript, Polyline } from '@react-google-maps/api';
 
 
 function App() {
@@ -10,6 +10,9 @@ function App() {
   const [selectedBusStops, setSelectedBusStops] = useState([]);
   const [routes, setRoutes] = useState([]);
   const [route, setRoute] = useState([]);
+
+  const [routeName,setRouteName]= useState("")
+  const [routeId,setRouteId]= useState("")
 
   useEffect(() => {
     axios
@@ -29,8 +32,14 @@ function App() {
       const filteredStops = allStops.filter((route) =>
         selectedBusStops.includes(route.busStopName)
       );
+      const newArr = []
       setRoutes(filteredStops);
-
+      routes.map((e)=>newArr.push({
+        lat:e.busStopCoord[0],
+        lng:e.busStopCoord[1]
+      }))
+      setRoute(newArr)
+      console.log(route);
       console.log(routes);
     });
   }
@@ -38,9 +47,9 @@ function App() {
   function onAdd() {
     axios
       .post("http://localhost:9000/api/busroutes/create", {
-        busRouteName: "",
+        busRouteName: routeName,
         busStopDetails: routes,
-        busRouteId: "",
+        busRouteId: routeId,
       })
       .then((res) => {
         console.log(res);
@@ -68,8 +77,8 @@ function App() {
 
   return (
     <div className="App">
-      <input placeholder="Чиглэлийн дугаар" />
-      <input placeholder="Чиглэлийн нэр" />
+      <input placeholder="Чиглэлийн дугаар" value={routeName} onChange={(e)=>setRouteName(e.target.value)} />
+      <input placeholder="Чиглэлийн нэр" value={routeId} onChange={(e)=>setRouteId(e.target.value)}/>
       Чиглэлийн буудлуудыг сонгоx
       <select onChange={(e) => onSelect(e)}>
         {data.map((e, i) => {
@@ -85,11 +94,11 @@ function App() {
           return <li key={i}>{e}</li>;
         })}
       </ul>
-      <button onClick={() => addRoute()}>Чиглэл шалгаx</button>
+      <button onClick={() => addRoute()}>Чиглэлийг газрын зураг дээр хараx</button>
       <button onClick={() => onAdd()}>Чиглэлийг нэмэx</button>
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
-        zoom={15}
+        zoom={14}
         center={center}
       >
         {route.length > 0 && (
