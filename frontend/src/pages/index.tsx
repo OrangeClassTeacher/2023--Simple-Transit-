@@ -5,18 +5,27 @@ import Link from "next/link";
 
 export default function Home(): JSX.Element {
   return (
-    <main >
-      <Image
-        src="/logo.png"
-        alt="image"
-        width={500}
-        height={500}
-      />
-      <h1>SIMPLE TRANSIT</h1>
+    <main className="landing flex item-center justify-center">
+      <div className="flex flex-col justify-around ">
+        <div className="image_div">
+          <Image
+            src="/logo.png"
+            alt="image"
 
-      <Link href={"/page1"}>
-        Get started !
-      </Link>
+            fill
+            sizes="(max-width: 768px) 500px,
+                    (max-width: 1200px) 500px,
+                    500px
+                    "/>
+        </div>
+
+        <h1 id="text" className="text-blue-500 text-6xl blue1">SIMPLE TRANSIT</h1>
+
+        <Link className="button1" href={"/page1"}>
+          Get started !
+        </Link>
+      </div>
+
     </main>
   )
 }
