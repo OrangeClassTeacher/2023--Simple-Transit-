@@ -85,7 +85,6 @@
   margin: 0 5rem;
   font-size: 1.25rem;
   color: rgb(66, 168, 249);
-  font: ;
 }
 
 .navbar-profile img {
@@ -98,13 +97,7 @@
   z-index: 1;
 }
 
-.accSettings {
-  width: 30%;
-  height: 80%;
-  position: absolute;
-  z-index: 1;
-  background-color: #ffffff;
-  display: flex;
-  direction: column;
-  justify-content: space-around;
+.settingPro {
+  /* margin: auto; */
+  height: 50px;
 }
