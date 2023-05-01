@@ -36,8 +36,8 @@ export const Navbar = (): JSX.Element => {
                 </Link>
             </div>
             <div className="navbar-profile" style={{ display: "block" }}>
-                <button onClick={handleModal}>
-                    <img src="icon.png" alt="Profile Icon" width={50} height={50} />
+                <button onClick={handleModal} data-dropdown-toggle="dropdownModal">
+                    <img src="profileImage.png" alt="Profile Icon" className="rounded-full object-cover" />
                 </button>
             </div>
             <UserModal modal={modal} />
