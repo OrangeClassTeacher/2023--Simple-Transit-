@@ -18,4 +18,3 @@ export const Layout = ({ children }: MyProfs): JSX.Element => (
         </div>
     </>
 )
-

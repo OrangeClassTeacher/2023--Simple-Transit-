@@ -12,8 +12,8 @@ export default function index({ name }: indexProps): JSX.Element {
     return (
         <Layout>
 
-            <TestCom tests={tests} />
-            <div>index</div>
+            {/* <TestCom tests={tests} />
+            <div>index</div> */}
         </Layout>
     )
 }
