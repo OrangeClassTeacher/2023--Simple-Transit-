@@ -45,13 +45,6 @@
     text-decoration: none;
   }
 
-<<<<<<< HEAD
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
-=======
   .landing {
     height: 100vh;
     background-color: white;
@@ -70,5 +63,4 @@ body {
     width: 300px;
     height: 300px;
   }
->>>>>>> 1f50a8f9d04fc276b6a6527cce8135eaa17160dc
 }
