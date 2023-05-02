@@ -25,18 +25,18 @@ export const Navbar = (): JSX.Element => {
                 </Link>
             </div>
             <div className="navbar-buttons ">
-                <Link href="/page1" className="text-gray-600 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 rounded">
+                <Link href="/page1" className="text-gray-600">
                     BUS
                 </Link>
-                <Link href="/ZenlyPage" className="text-gray-600">
+                <Link href="/People" className="text-gray-600">
                     TRACKING
                 </Link>
-                <Link href="/LightPage" className="text-gray-600">
+                <Link href="/TrafficLight" className="text-gray-600">
                     TRAFFIC LIGHT
                 </Link>
             </div>
             <div className="navbar-profile" style={{ display: "block" }}>
-                <button onClick={handleModal} data-dropdown-toggle="dropdownModal">
+                <button id="dropBtn" data-dropdown-toggle="dropdownModal">
                     <img src="profileImage.png" alt="Profile Icon" className="rounded-full object-cover" />
                 </button>
             </div>
