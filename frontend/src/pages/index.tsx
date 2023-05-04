@@ -8,7 +8,7 @@ import Link from "next/link";
 
 export default function Home(): JSX.Element {
   return (
-    <main className="landing flex item-center justify-center">
+    <main className="landing flex item-center justify-center mx-auto">
       <div className="flex flex-col justify-around ">
         <div className="image_div">
           <Image
