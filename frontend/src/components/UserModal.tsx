@@ -1,16 +1,14 @@
 import React from 'react'
-import Navbar from './Navbar'
-import Link from "next/link"
 
 // export interface Modal {
 //     modal: boolean
 // }
 
 export default function UserModal({ modal }: { modal: boolean }): JSX.Element {
-    const dn = modal ? "block" : "hidden"
+    const dn = modal ? "block" : "hidden";
     return (
 
-        <div id='dropdownModal' className={`hidden mx-auto right-0 mt-2 w-60 z-10  bg-white divide-y divide-gray-100 rounded-lg shadow w-60 dark: bg-gray-700 dark: divide-gray-600`} aria-labelledby='dropBtn'>
+        <div id='dropdownModal' className={`${dn} mx-auto right-0 mt-2 absolute top-20 w-60 z-10  bg-white divide-y divide-gray-100 rounded-lg shadow w-60`} aria-labelledby='dropBtn'>
             <div className="bg-white rounded overflow-hidden shadow-lg">
                 <div className="text-center p-6 bg-gray-800 border-b">
                     <img src="profileImage.png" alt="Profile Icon" className="rounded-full object-cover h-full settingPro mx-auto" width={50} height={50} />
