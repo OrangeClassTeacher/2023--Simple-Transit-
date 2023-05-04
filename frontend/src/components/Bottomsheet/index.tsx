@@ -9,7 +9,7 @@ export default function BottomSheet() {
       <div
         id="drawer-swipe"
 
-        className="fixed z-40 w-full overflow-y-auto bg-white border-t border-gray-200 rounded-t-lg dark:border-gray-700 dark:bg-gray-800 transition-transform bottom-0 left-0 right-0 translate-y-full bottom-[60px]"
+        className="fixed w-full overflow-y-auto bg-white border-t border-gray-200 rounded-t-lg dark:border-gray-700 dark:bg-gray-800 transition-transform bottom-0 left-0 right-0 translate-y-full bottom-[60px]"
         data-drawer-target="drawer-swipe"
         data-drawer-show="drawer-swipe"
         data-drawer-placement="bottom"
@@ -33,14 +33,14 @@ export default function BottomSheet() {
               xmlns="http://www.w3.org/2000/svg">
               <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z"></path>
             </svg>
-            Add widget
+
           </h5>
         </div>
         <div className="grid grid-cols-3 gap-4 p-4 lg:grid-cols-4">
 
-<Input/>
-<div>
-  </div>
+          <Input />
+          <div>
+          </div>
         </div>
       </div>
     </div>

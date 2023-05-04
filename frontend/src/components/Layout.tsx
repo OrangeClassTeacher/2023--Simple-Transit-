@@ -1,14 +1,17 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { Meta } from './Meta'
 import { Navbar } from './Navbar'
 import Map from './Map'
 import BottomSheet from './Bottomsheet'
+import { Context } from '@/utils/Context'
 
 interface MyProfs {
     children: ReactNode
 }
 
 export const Layout = ({ children }: MyProfs): JSX.Element => (
+
+
     <>
         <Meta />
         <div>
@@ -17,6 +20,13 @@ export const Layout = ({ children }: MyProfs): JSX.Element => (
 
             <main>{children}</main>
         </div>
+
+
+
     </>
+
+
+
+
 )
 
