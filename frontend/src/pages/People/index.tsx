@@ -1,3 +1,4 @@
+import BottomSheet from '@/components/Bottomsheet'
 import { Layout } from '@/components/Layout'
 import { ITestCom, TestCom } from '@/components/TestCom'
 import React, { useState } from 'react'
@@ -12,8 +13,7 @@ export default function index({ name }: indexProps): JSX.Element {
 
     return (
         <Layout>
-            <TestCom tests={tests} />
-            <div>index</div>
+            <BottomSheet />
         </Layout>
     )
 }
