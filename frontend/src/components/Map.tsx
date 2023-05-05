@@ -1,11 +1,11 @@
-import { GoogleMap, useLoadScript, InfoWindow, Autocomplete, DirectionsRenderer } from "@react-google-maps/api";
-import React, { useState, useContext, useRef } from "react";
+import { GoogleMap, useLoadScript, InfoWindow, Autocomplete, DirectionsRenderer, TrafficLayer } from "@react-google-maps/api";
+import React, { useState, useContext, useRef, useCallback, useEffect } from "react";
 import { Context } from "../utils/Context";
 
 
 
 
-const Map = () => {
+const Map = ({ layerName }) => {
 
   const { selectedPlace, setSelectedPlace } = useContext(Context)
   const [directionsResponse, setDirectionsResponse] = useState(null)
@@ -34,7 +34,7 @@ const Map = () => {
   }
 
   const mapContainerStyle = {
-    height: '100vh',
+    height: '400px',
     width: '100%',
   };
 
@@ -52,9 +52,7 @@ const Map = () => {
   });
 
 
-
   const onMapClick = async (event: any) => {
-
     const { latLng } = event;
     const service = new google.maps.places.PlacesService(mapRef.current);
     const request = {
@@ -75,21 +73,63 @@ const Map = () => {
       const place = results[1];
       console.log(results);
       console.log(place);
-
-
       setSelectedPlace(place.name);
     }
   };
 
-
   const mapRef = React.useRef();
-  const onMapLoad = (map: any) => {
-    mapRef.current = map;
-  };
+  const [map, setMap] = useState({});
+  const [traffic, setTraffic] = useState(null);
 
+  const handleMapLoad = useCallback((map: any) => {
+    mapRef.current = map;
+    setMap(map);
+    setTraffic(new window.google.maps.TrafficLayer());
+  }, []);
+
+
+  const handleLayer = useCallback((layer) => {
+    switch (layer) {
+      case 'traffic':
+        traffic.setMap(map);
+        break;
+      case 'none':
+        traffic.setMap(null);
+        break;
+      default:
+        break;
+    }
+    setTraffic(traffic); // update the state of traffic
+  }, [map, traffic]);
+  const handleLayerEffect = useCallback(() => {
+    switch (layerName) {
+      case "traffic":
+        if (map && !traffic) {
+          setTraffic(new window.google.maps.TrafficLayer());
+        } else if (traffic) {
+          traffic.setMap(map);
+        }
+        break;
+      case "none":
+        if (traffic) {
+          traffic.setMap(null);
+        }
+        break;
+      default:
+        break;
+    }
+  }, [layerName, map, traffic]);
+
+  useEffect(() => {
+    handleLayerEffect();
+  }, [handleLayerEffect]);
   return (
 
     <div>
+
+      {/* <button onClick={() => handleLayer(selectedLayer)}>Traffic</button>
+
+      <button onClick={() => handleLayer(selectedLayer)}>None</button> */}
       {loadError && <p>Error loading maps</p>}
       {!isLoaded && <p>Loading Maps</p>}
       {isLoaded && (<>
@@ -98,7 +138,9 @@ const Map = () => {
           center={center}
           zoom={14}
           onClick={onMapClick}
-          onLoad={onMapLoad}
+          onLoad={handleMapLoad}
+
+
         >
           {directionsResponse &&
             (<DirectionsRenderer directions={directionsResponse} />)}
