@@ -17,7 +17,6 @@ export const Layout = ({ children }: MyProfs): JSX.Element => (
         <div>
             <Navbar />
             <Map />
-
             <main>{children}</main>
         </div>
 

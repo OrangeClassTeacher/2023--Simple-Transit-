@@ -4,15 +4,12 @@ import UserModal from "./UserModal";
 import LoginModal from "./LoginModal";
 
 
-// interface Props { } 
-// export interface Modal {
-//     id: Number,
-//     name: string
-// }
 
 export const Navbar = (): JSX.Element => {
     const [modal, setModal] = useState(false)
     const [login, setLogin] = useState(false)
+    const [user, setUser] = useState({})
+    const [checkLogin, setCheckLogin] = useState<Boolean>(false)
     // console.log(login);
     // console.log(modal);
 
@@ -43,7 +40,7 @@ export const Navbar = (): JSX.Element => {
                     TRAFFIC LIGHT
                 </Link>
             </div>
-            <div className="flex">
+            {!checkLogin ? <div className="flex">
                 <button type="button" onClick={handleLoginModal} className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     Login
                 </button>
@@ -53,13 +50,14 @@ export const Navbar = (): JSX.Element => {
                     Sign Up
                 </a>
 
-            </div>
-            <div className="navbar-profile" style={{ display: "block" }}>
-                <button id="dropBtn" onClick={handleModal} >
-                    <img src="profileImage.png" alt="Profile Icon" className="rounded-full object-cover" />
-                </button>
-            </div>
-            <LoginModal login={login} />
+            </div> :
+                <div className="navbar-profile" style={{ display: "block" }}>
+                    <button id="dropBtn" onClick={handleModal} >
+                        <img src="profileImage.png" alt="Profile Icon" className="rounded-full object-cover" />
+                    </button>
+                </div>}
+            <LoginModal login={login} checkLogin={checkLogin} />
+
             <UserModal modal={modal} />
 
         </nav >

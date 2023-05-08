@@ -1,17 +1,44 @@
+import axios from 'axios';
 import { eventNames } from 'process'
 import React, { ReactHTMLElement, useState } from 'react'
+import { useRouter } from 'next/router'
+import { Checklist } from '@mui/icons-material';
 
 
-// export interface loginModal {
-//     onClose: () => boolean,
-// }
 
-export default function LoginModal({ login }: { login: boolean }): JSX.Element {
+export interface ILoggedUser {
+    email: string,
+    password: string
+}
+
+export default function LoginModal({ login, checkLogin }: { login: boolean, checkLogin: boolean }): JSX.Element {
     const ds = login ? "block" : "hidden";
+    const route = useRouter()
+
+    const userLog: ILoggedUser = {
+        email: "",
+        password: ""
+    }
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [loggedUser, setLoggedUser] = useState(userLog)
+    const [loggedIn, setLoggedIn] = useState<boolean>(checkLogin)
+    function handleLogin(e: any) {
+        e.stopPropagation();
 
+        axios.post("http://localhost:9000/api/user/login", { email: email, password: password })
+            .then((res) => {
+                setLoggedUser(res.data)
+                console.log(loggedUser);
+            })
+            .catch((err) => console.log(err))
+
+
+
+
+
+    }
 
     return (
         <div id="authentication-modal" tabIndex={-1} className={`${ds} absolute z-50 fixed p-4 w-96 focus:bg-primary-600 mx-auto overflow-x-hidden overflow-y-auto loginModal `}>
@@ -52,7 +79,7 @@ export default function LoginModal({ login }: { login: boolean }): JSX.Element {
                                 </div>
                                 <a href="#" className="text-sm text-blue-700 hover:underline dark:text-blue-500">Lost Password?</a>
                             </div>
-                            <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login to your account</button>
+                            <button type="submit" onClick={(e) => handleLogin(e)} className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login to your account</button>
                             <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
                                 Not registered? <a href="/Register" className="text-blue-700 hover:underline dark:text-blue-500">Create account</a>
                             </div>
