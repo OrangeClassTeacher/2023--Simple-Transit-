@@ -10,16 +10,12 @@ import LoginModal from "./LoginModal";
 //     name: string
 // }
 
-export const Navbar = ({ onLayerClick }: any): JSX.Element => {
+export const Navbar = (): JSX.Element => {
     const [modal, setModal] = useState(false)
     const [login, setLogin] = useState(false)
     // console.log(login);
     // console.log(modal);
-    const handleButtonClick = (layerName: string) => {
-        onLayerClick(layerName);
-        console.log(layerName);
 
-    };
 
     const handleModal = () => {
         setModal(!modal)
@@ -37,13 +33,13 @@ export const Navbar = ({ onLayerClick }: any): JSX.Element => {
                 </Link>
             </div>
             <div className="navbar-buttons ">
-                <Link onClick={() => handleButtonClick("none")} href="/page1" className="text-gray-600">
+                <Link href="/page1" className="text-gray-600">
                     BUS
                 </Link>
-                <Link onClick={() => handleButtonClick("none")} href="/People" className="text-gray-600">
+                <Link href="/People" className="text-gray-600">
                     TRACKING
                 </Link>
-                <Link onClick={() => handleButtonClick("traffic")} href="/TrafficLight" className="text-gray-600">
+                <Link href="/TrafficLight" className="text-gray-600">
                     TRAFFIC LIGHT
                 </Link>
             </div>
