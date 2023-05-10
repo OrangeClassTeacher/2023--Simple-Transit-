@@ -9,23 +9,31 @@ interface MyProfs {
     children: ReactNode
 }
 
-export const Layout = ({ children }: MyProfs): JSX.Element => (
+export const Layout = ({ children }: MyProfs): any => {
+
+    const [layerName, setLayerName] = useState("none")
+    const handleLayerClick = (layer) => {
+        setLayerName(layer)
+    };
+    return (
 
 
-    <>
-        <Meta />
-        <div>
-            <Navbar />
-            <Map />
-            <main>{children}</main>
-        </div>
+        <>
+            <Meta />
+            <div>
+                <Navbar onLayerClick={handleLayerClick} />
+                <Map layerName={layerName} />
+
+                <main>{children}</main>
+            </div>
 
 
 
-    </>
+        </>
 
 
 
 
-)
+    )
+}
 
