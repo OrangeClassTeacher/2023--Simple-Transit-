@@ -7,6 +7,33 @@ export default function RegisterForm(): JSX.Element {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [password2, setPassword2] = useState("")
+    const [passwordRequirements, setPasswordRequirements] = useState([
+        {
+            title: "Хамгийн багадаа 8 тэмдэгттэй байх",
+            state: false,
+            regex: new RegExp("(?=.{8,})"),
+        },
+        {
+            title: "Дор хаяж 1 том үсэг орсон байх",
+            state: false,
+            regex: new RegExp("(?=.*[A-Z])"),
+        },
+        {
+            title: "Дор хаяж 1 жижиг үсэг орсон байх",
+            state: false,
+            regex: new RegExp("(?=.*[a-z])"),
+        },
+        {
+            title: "Дор хаяж 1 тоо орсон байх",
+            state: false,
+            regex: new RegExp("(?=.*[0-9])"),
+        },
+        {
+            title: "Дор хаяж 1 тусгай тэмдэгт орсон байх",
+            state: false,
+            regex: new RegExp("(?=.*[^A-Za-z0-9])"),
+        },
+    ]);
     function handleSignup() {
         axios.post("http://localhost:9000/api/user/signup", { name: name, password: password, email: email })
             .then(res => { console.log(res.data); alert("Success") })

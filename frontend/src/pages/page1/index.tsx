@@ -12,7 +12,6 @@ export default function index({ name }: indexProps): JSX.Element {
 
     return (
         <Layout>
-            <BottomSheet />
         </Layout>
     )
 }
