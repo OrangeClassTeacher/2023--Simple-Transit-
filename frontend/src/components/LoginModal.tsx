@@ -1,7 +1,7 @@
 import axios from 'axios';
-import React, { ReactHTMLElement, useEffect, useState } from 'react'
+import React, { ReactHTMLElement, useEffect, useState, useContext } from 'react'
 import { useRouter } from 'next/router'
-
+import { userContext } from '@/utils/Context';
 
 
 
@@ -10,7 +10,7 @@ import { useRouter } from 'next/router'
 export default function LoginModal({ login, setLogin, setCheckLogin }: { login: boolean, setLogin: any, setCheckLogin: any }): JSX.Element {
     const ds = login ? "block" : "hidden";
     const route = useRouter()
-
+    const { user, setUser } = useContext(userContext)
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -32,9 +32,13 @@ export default function LoginModal({ login, setLogin, setCheckLogin }: { login: 
         axios.post("http://localhost:9000/api/user/login", { email: email, password: password })
             .then((res) => {
                 setLoggedUser(res.data)
-                setCheckLogin(true)
-
-                console.log(loggedUser);
+                if (res.data.status == true) {
+                    setCheckLogin(true)
+                    setUser(res.data.user)
+                    console.log(loggedUser);
+                    setLogin(false)
+                }
+                else alert("amjiltgui")
             })
             .catch((err) => console.log(err))
     }

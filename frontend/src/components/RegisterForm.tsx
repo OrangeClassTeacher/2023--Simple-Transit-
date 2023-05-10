@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios"
+import { Router } from '@mui/icons-material'
+import { useRouter } from 'next/router'
 
 
 export default function RegisterForm(): JSX.Element {
+    const route = useRouter()
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -36,7 +39,12 @@ export default function RegisterForm(): JSX.Element {
     ]);
     function handleSignup() {
         axios.post("http://localhost:9000/api/user/signup", { name: name, password: password, email: email })
-            .then(res => { console.log(res.data); alert("Success") })
+            .then(res => {
+                console.log(res.data); if (res.data.status == true) {
+                    alert("Success")
+                    route.push("/page1")
+                }
+            })
             .catch(err => {
                 console.log(err);
                 alert("Fail")
