@@ -11,18 +11,15 @@ interface MyProfs {
 
 export const Layout = ({ children }: MyProfs): any => {
 
-    const [layerName, setLayerName] = useState("none")
-    const handleLayerClick = (layer) => {
-        setLayerName(layer)
-    };
+
     return (
 
 
         <>
             <Meta />
             <div>
-                <Navbar onLayerClick={handleLayerClick} />
-                <Map layerName={layerName} />
+                <Navbar />
+                <Map />
 
                 <main>{children}</main>
             </div>

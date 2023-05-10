@@ -3,8 +3,8 @@ post http://localhost:9000/api/busstops/create
 Content-Type: application/json
 
 {
-    "busStopName":"Зүүн 4 зам(урд)",
-    "busStopCoord":[47.91881723083494, 106.94091247528337]
+    "busStopName":"Дулааны цахилгаан станц 3 (зүүн)",
+    "busStopCoord":[47.8992785639388, 106.8679574858624]
 }
 
 ###
