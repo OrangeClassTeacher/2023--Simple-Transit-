@@ -40,7 +40,7 @@ const Login = async (req: Request, res: Response) => {
             );
 
             if (decrypt) {
-                res.json({ message: "Logged in" })
+                res.json({ status: true, message: "Logged in", user })
 
             }
             else {
