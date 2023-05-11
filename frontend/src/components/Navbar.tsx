@@ -7,24 +7,12 @@ import SideMenu from "./SideMenu";
 
 
 
-export const Navbar = ({ onLayerClick }: any): JSX.Element => {
+export const Navbar = (): JSX.Element => {
 
     const [modal, setModal] = useState(false)
     const [login, setLogin] = useState(false)
-    // const [user, setUser] = useState({
-    //     name:"",
-    //     email:""
-    // })
     const [checkLogin, setCheckLogin] = useState<Boolean>(false)
     const [sideButton, setSideButton] = useState(false)
-
-    // console.log(login);
-    // console.log(modal);
-    const handleButtonClick = (layerName: string) => {
-        onLayerClick(layerName);
-        console.log(layerName);
-
-    };
 
     const handleModal = () => {
         setModal(!modal)
@@ -48,13 +36,13 @@ export const Navbar = ({ onLayerClick }: any): JSX.Element => {
                     </Link>
                 </div>
                 <div className="navbar-buttons ">
-                    <Link onClick={() => handleButtonClick("none")} href="/page1" className="text-gray-600">
+                    <Link href="/page1" className="text-gray-600">
                         BUS
                     </Link>
-                    <Link onClick={() => handleButtonClick("none")} href="/People" className="text-gray-600">
+                    <Link href="/People" className="text-gray-600">
                         TRACKING
                     </Link>
-                    <Link onClick={() => handleButtonClick("traffic")} href="/TrafficLight" className="text-gray-600">
+                    <Link href="/TrafficLight" className="text-gray-600">
                         TRAFFIC LIGHT
                     </Link>
                 </div>
