@@ -14,7 +14,10 @@ export const Navbar = ({ onLayerClick }: any): JSX.Element => {
 
     const [modal, setModal] = useState(false)
     const [login, setLogin] = useState(false)
-    const [user, setUser] = useState(null)
+    // const [user, setUser] = useState({
+    //     name:"",
+    //     email:""
+    // })
     const [checkLogin, setCheckLogin] = useState<Boolean>(false)
     const [sideButton, setSideButton] = useState(false)
 
@@ -101,7 +104,7 @@ export const Navbar = ({ onLayerClick }: any): JSX.Element => {
                     </div>}
                 <LoginModal login={login} setLogin={setLogin} setCheckLogin={setCheckLogin} />
 
-                <UserModal modal={modal} />
+                <UserModal modal={modal} setModal={setModal} checkLogin={checkLogin} setCheckLogin={setCheckLogin} />
             </nav >
             <div>
                 <div className="">
