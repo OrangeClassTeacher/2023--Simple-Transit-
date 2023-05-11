@@ -11,8 +11,8 @@ function App() {
   const [routes, setRoutes] = useState([]);
   const [route, setRoute] = useState([]);
 
-  const [routeName,setRouteName]= useState("")
-  const [routeId,setRouteId]= useState("")
+  const [routeName, setRouteName] = useState("")
+  const [routeId, setRouteId] = useState("")
 
   useEffect(() => {
     axios
@@ -29,14 +29,18 @@ function App() {
   function addRoute() {
     axios.get("http://localhost:9000/api/busstops").then((res) => {
       const allStops = res.data.result;
-      const filteredStops = allStops.filter((route) =>
-        selectedBusStops.includes(route.busStopName)
-      );
+      const filteredStops = allStops
+        .filter((stop) => selectedBusStops.includes(stop.busStopName))
+        .sort((a, b) => {
+          const indexA = selectedBusStops.indexOf(a.busStopName);
+          const indexB = selectedBusStops.indexOf(b.busStopName);
+          return indexA - indexB;
+        });
       const newArr = []
       setRoutes(filteredStops);
-      routes.map((e)=>newArr.push({
-        lat:e.busStopCoord[0],
-        lng:e.busStopCoord[1]
+      routes.map((e) => newArr.push({
+        lat: e.busStopCoord[0],
+        lng: e.busStopCoord[1]
       }))
       setRoute(newArr)
       console.log(route);
@@ -77,8 +81,8 @@ function App() {
 
   return (
     <div className="App">
-      <input placeholder="Чиглэлийн дугаар" value={routeName} onChange={(e)=>setRouteName(e.target.value)} />
-      <input placeholder="Чиглэлийн нэр" value={routeId} onChange={(e)=>setRouteId(e.target.value)}/>
+      <input placeholder="Чиглэлийн дугаар" value={routeName} onChange={(e) => setRouteName(e.target.value)} />
+      <input placeholder="Чиглэлийн нэр" value={routeId} onChange={(e) => setRouteId(e.target.value)} />
       Чиглэлийн буудлуудыг сонгоx
       <select onChange={(e) => onSelect(e)}>
         {data.map((e, i) => {
