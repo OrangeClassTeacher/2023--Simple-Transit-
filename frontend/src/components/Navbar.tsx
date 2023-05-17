@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Link from 'next/link'
 import UserModal from "./UserModal";
 import LoginModal from "./LoginModal";
-import SideMenu from "./SideMenu";
+
 
 
 
@@ -12,7 +12,7 @@ export const Navbar = (): JSX.Element => {
     const [modal, setModal] = useState(false)
     const [login, setLogin] = useState(false)
     const [checkLogin, setCheckLogin] = useState<Boolean>(false)
-    const [sideButton, setSideButton] = useState(false)
+
 
     const handleModal = () => {
         setModal(!modal)
@@ -20,9 +20,7 @@ export const Navbar = (): JSX.Element => {
     const handleLoginModal = () => {
         setLogin(!login)
     }
-    const menuButton = () => {
-        setSideButton(!sideButton)
-    }
+
 
     const dn = !modal ? "block" : "none"
     return (
@@ -66,12 +64,8 @@ export const Navbar = (): JSX.Element => {
 
                 <UserModal modal={modal} setModal={setModal} checkLogin={checkLogin} setCheckLogin={setCheckLogin} />
             </nav >
-            <div>
-                <div className="">
-                    <button type="button" onClick={menuButton} className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Direction</button>
-                </div>
-            </div>
-            <SideMenu sideButton={sideButton} />
+
+
         </div>
 
 

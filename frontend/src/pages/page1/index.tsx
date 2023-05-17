@@ -7,9 +7,6 @@ interface indexProps {
 }
 
 export default function index({ name }: indexProps): JSX.Element {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [tests, setTests] = useState<ITestCom[]>([])
-
     return (
         <Layout>
 

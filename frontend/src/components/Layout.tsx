@@ -17,9 +17,12 @@ export const Layout = ({ children }: MyProfs): any => {
 
         <>
             <Meta />
-            <div>
+            <div className='relative'>
                 <Navbar />
                 <Map />
+
+
+
 
                 <main>{children}</main>
             </div>
