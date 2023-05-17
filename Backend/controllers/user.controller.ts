@@ -54,4 +54,24 @@ const Login = async (req: Request, res: Response) => {
     }
 }
 
-export { Login, Signup }
+const getAll = async (req: Request, res: Response) => {
+    try {
+        const { name } = req.body
+        const result = await User.find({ name: { $regex: name } })
+
+        if (!result) {
+            res.json({ status: false, message: 'blhgu bn' })
+            return
+        }
+        res.json({ status: true, result })
+        return
+    }
+    catch (err) {
+        res.json({ status: false, message: err });
+        return
+    }
+
+
+}
+
+export { Login, Signup, getAll }

@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import dotenv from "dotenv";
 import cors from "cors";
 import mongoose from "mongoose";
-
+import connRoutes from "./routers/userConn.router"
 import busRoutes from "./routers/busroute.router"
 import userRoutes from "./routers/user.router"
 import busStops from "./routers/busstop.router"
@@ -10,7 +10,7 @@ import busStops from "./routers/busstop.router"
 // const dotenv = require("dotenv")
 // const busRoutes = require("./routers/busstop.router") 
 
- 
+
 dotenv.config()
 
 const url: string = process.env.MONGO_DB_URI || ""
@@ -30,6 +30,7 @@ app.use(express.json());
 app.use("/api", busRoutes);
 app.use("/api", userRoutes);
 app.use("/api", busStops)
+app.use("/api", connRoutes)
 
 app.get("/api", (req: Request, res: Response) => {
   res.json({ message: "Success" });

@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Autocomplete } from '@react-google-maps/api'
 import Image from 'next/image'
 import findRoutes from './functions/findRoutes'
+import axios from 'axios'
 export default function SideMenu({
     sideButton,
     setSideButton,
@@ -20,9 +21,30 @@ export default function SideMenu({
     map,
     origin,
     destination,
-    currentLocation
-}: { setSideButton: any, sideButton: boolean }): JSX.Element {
+    currentLocation,
+    setMarkerPoints,
+    setInfoWindowPoints,
+    infoWindowPoints
+}: any): JSX.Element {
+    const [userSearch, setUserSearch] = useState("")
     const ds = sideButton ? "block " : "hidden"
+    const [userData, setUserData] = useState()
+
+
+    function filterFriends() {
+        axios.post("http://localhost:9000/api/user/getAll", { name: userSearch })
+            .then((res) => setUserData(res.data.result))
+            .catch((err) => console.log(err)
+            )
+    }
+
+    // function addFriend(param:any){
+    //     axios.post("http://localhost:9000/api/user/connection",{
+    //         id1:id,
+    //         id2:param,
+    //         status:"pending"
+    //     })
+    // }
     return (
         <div className='absolute' style={{ top: 0, left: 0 }}>
             <div id="drawer-disabled-backdrop" className={`${ds} absolute z-40 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white w-80 dark:bg-gray-800`} aria-labelledby="drawer-disabled-backdrop-label">
@@ -55,7 +77,8 @@ export default function SideMenu({
                             busRouteData,
                             busStopData,
                             map,
-
+                            setMarkerPoints,
+                            setInfoWindowPoints
                         )}>
                         <Image
                             src="/bus-icon.jpg"
@@ -83,6 +106,56 @@ export default function SideMenu({
                     <button onClick={() => clearRoute()}>
                         Clear routes
                     </button>
+                    <hr />
+                    {originRef?.current?.value ? (
+                        <div>
+                            <h1>{originRef?.current?.value}</h1>
+                        </div>
+                    ) :
+                        (<div>
+                            {place}
+                        </div>)
+                    }
+
+                    <div>
+                        Walk
+                    </div>
+                    <hr />
+                    {infoWindowPoints.length > 0 && (
+                        <div>
+                            {infoWindowPoints[0].stopName}
+                            <br />
+                            Bus
+                            <br />
+                            {infoWindowPoints[infoWindowPoints.length - 1].stopName}
+                        </div>
+                    )}
+                    <hr />
+                    <div>
+                        Walk
+                    </div>
+                    {destinationRef?.current?.value && (
+                        <div>
+                            <h1>{destinationRef?.current?.value}</h1>
+                        </div>
+                    )}
+                </div>
+                <div>
+                    <input placeholder='search' value={userSearch}
+                        onChange={(e) => setUserSearch(e.target.value)}
+                    />
+                    <button onClick={() => filterFriends()}>
+                        Search
+                    </button>
+                    {
+                        userData && userData.map((e, i) => {
+                            return <div key={i}>
+                                {e.name}
+                                <button >Add friend</button>
+                            </div>
+                        })
+
+                    }
                 </div>
             </div>
         </div>

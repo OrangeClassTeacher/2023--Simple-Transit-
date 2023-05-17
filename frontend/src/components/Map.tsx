@@ -36,8 +36,8 @@ const Map = () => {
   const autocompleteRefOrigin: any = useRef(null);
   const [currentLocation, setCurrentLocation] = useState<ILOC>()
   const [place, setPlace] = useState<any>();
-
-
+  const [markerPoints, setMarkerPoints] = useState([])
+  const [infoWindowPoints, setInfoWindowPoints] = useState([])
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_GOOGLE_API_KEY as string,
     libraries: libraries
@@ -233,6 +233,25 @@ const Map = () => {
           (<DirectionsRenderer directions={startDirectionResponse} />)}
         {endDirectionResponse &&
           (<DirectionsRenderer directions={endDirectionResponse} />)}
+        {markerPoints.length > 0 && markerPoints.map((e, i) => {
+          return <Marker
+            position={e}
+          >
+
+            <InfoWindow
+              position={e}
+            >
+              <div>{infoWindowPoints[i].stopName}</div>
+            </InfoWindow>
+
+          </Marker>
+
+
+
+        })}
+
+
+
       </GoogleMap>
       <div className="absolute" style={{ top: 0, left: 0 }}>
         <button type="button" onClick={menuButton} className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Direction</button>
@@ -256,6 +275,9 @@ const Map = () => {
         origin={origin}
         destination={destination}
         currentLocation={currentLocation}
+        setMarkerPoints={setMarkerPoints}
+        setInfoWindowPoints={setInfoWindowPoints}
+        infoWindowPoints={infoWindowPoints}
       />
     </div>
   );

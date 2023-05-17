@@ -1,0 +1,7 @@
+###
+post http://localhost:9000/api/user/getAll
+Content-Type: application/json
+
+{
+    "name": "amar"
+}

@@ -5,9 +5,9 @@ import { Graph } from "graphlib"
 
 const { point, distance } = turf;
 
-function findRoutes(origin: any, destination: any, busRoutesData: any, busStopData: any, map: any) {
+function findRoutes(origin: any, destination: any, busRoutesData: any, busStopData: any, map: any, setMarkerPoints: any, setInfoWindowPoints: any) {
 
-    const walkingDistance = 0.3;
+    const walkingDistance = 0.5;
     const stopsWithinWalkingDistanceToStart: any = [];
     const stopsWithinWalkingDistanceToEnd: any = [];
     const uniqueStops: any = [];
@@ -92,7 +92,9 @@ function findRoutes(origin: any, destination: any, busRoutesData: any, busStopDa
         });
         return formattedPath;
     });
+    console.log("formattedRoutes", formattedRoutes);
 
+    setInfoWindowPoints(formattedRoutes[0])
     if (formattedRoutes.length > 0) {
         console.log(formattedRoutes);
         let newStops = formattedRoutes[0].map((e: any) => e.stopName)
@@ -107,7 +109,7 @@ function findRoutes(origin: any, destination: any, busRoutesData: any, busStopDa
             });
         const Arr: any = []
         newArra.map((e: any) => { Arr.push({ lat: e.busStopCoord[0], lng: e.busStopCoord[1] }) })
-
+        setMarkerPoints(Arr)
         {
 
 
