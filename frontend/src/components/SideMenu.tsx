@@ -21,7 +21,7 @@ export default function SideMenu({
     origin,
     destination,
     currentLocation
-}: { setSideButton: any, sideButton: boolean }): JSX.Element {
+}: any): JSX.Element {
     const ds = sideButton ? "block " : "hidden"
     return (
         <div className='absolute' style={{ top: 0, left: 0 }}>
@@ -32,41 +32,41 @@ export default function SideMenu({
                     <span className="sr-only" >Close menu</span>
                 </button>
                 <div className="py-4 overflow-y-auto">
-                    <button onClick={() => changeTravelMode("WALKING")}>
-                        <Image
-                            src="/walking-icon.jpg"
-                            alt=""
-                            width={50}
-                            height={50}
-                        />
-                    </button>
-                    <button onClick={() => changeTravelMode("DRIVING")}>
-                        <Image
-                            src="/driving-icon.png"
-                            alt=""
-                            width={50}
-                            height={50}
-                        />
-                    </button>
-                    <button
-                        onClick={() => findRoutes(
-                            origin ? [origin.lat(), origin.lng()] : [currentLocation.lat, currentLocation.lng],
-                            destination ? [destination.lat(), destination.lng()] : null,
-                            busRouteData,
-                            busStopData,
-                            map,
+                    <div className='border-b-4 flex justify-around'>
+                        <button className='walkingButton active: bg-slate-400' onClick={() => changeTravelMode("WALKING")}>
+                            <Image
+                                src="/walking-icon.jpg"
+                                alt=""
+                                width={50}
+                                height={50}
+                            />
+                        </button>
+                        <button onClick={() => changeTravelMode("DRIVING")}>
+                            <Image
+                                src="/driving-icon.png"
+                                alt=""
+                                width={50}
+                                height={50}
+                            />
+                        </button>
+                        <button
+                            onClick={() => findRoutes(
+                                origin ? [origin.lat(), origin.lng()] : [currentLocation.lat, currentLocation.lng],
+                                destination ? [destination.lat(), destination.lng()] : null,
+                                busRouteData,
+                                busStopData,
+                                map,
 
-                        )}>
-                        <Image
-                            src="/bus-icon.jpg"
-                            alt=""
-                            width={50}
-                            height={50}
-                        />
-                    </button>
-                    <button onClick={() => calculateRoute("WALKING")}>
-                        Calculate route
-                    </button>
+                            )}>
+                            <Image
+                                src="/bus-icon.jpg"
+                                alt=""
+                                width={50}
+                                height={50}
+                            />
+                        </button>
+                    </div>
+
                     <Autocomplete
                         onLoad={(autocomplete) => (autocompleteRefOrigin.current = autocomplete)}
                         onPlaceChanged={handleOrigin}
@@ -80,6 +80,9 @@ export default function SideMenu({
 
                         <input style={{ zIndex: "1" }} type="text" placeholder="destination" ref={destinationRef} />
                     </Autocomplete>
+                    <button className='rounded-full' onClick={() => calculateRoute("WALKING")}>
+                        Calculate route
+                    </button>
                     <button onClick={() => clearRoute()}>
                         Clear routes
                     </button>

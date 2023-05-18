@@ -15,10 +15,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
         <userContext.Provider value={{ user, setUser }}>
           <Component {...pageProps} />
         </userContext.Provider>
-
       </Context.Provider>
-
-
     </>
   )
 }
