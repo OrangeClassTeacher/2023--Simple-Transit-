@@ -20,7 +20,7 @@ post http://localhost:9000/api/user/signup
 Content-Type: application/json
 
 {
-    "name":"test7",
-    "email":"t7@gmail.com",
-    "password":"12345678"
+    "name":"Bitaamin",
+    "email":"htamir80@gmail.com",
+    "password":"Tamirpro133"
 }

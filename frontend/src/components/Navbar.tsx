@@ -4,6 +4,7 @@ import UserModal from "./UserModal";
 import LoginModal from "./LoginModal";
 import { loginContext } from "@/utils/Context";
 
+
 export const Navbar = (): JSX.Element => {
 
     const [modal, setModal] = useState<any>(false)
