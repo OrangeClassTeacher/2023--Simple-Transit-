@@ -1,18 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Link from 'next/link'
 import UserModal from "./UserModal";
 import LoginModal from "./LoginModal";
-
-
-
-
+import { loginContext } from "@/utils/Context";
 
 export const Navbar = (): JSX.Element => {
 
-    const [modal, setModal] = useState(false)
-    const [login, setLogin] = useState(false)
-    const [checkLogin, setCheckLogin] = useState<Boolean>(false)
+    const [modal, setModal] = useState<any>(false)
+    const [login, setLogin] = useState<any>(false)
+    const { checkLogin, setCheckLogin } = useContext<any>(loginContext)
 
+    useEffect(() => {
+        if (localStorage.getItem("id")) {
+            setCheckLogin(true)
+        }
+    }, [checkLogin])
 
     const handleModal = () => {
         setModal(!modal)
@@ -20,13 +22,8 @@ export const Navbar = (): JSX.Element => {
     const handleLoginModal = () => {
         setLogin(!login)
     }
-
-
-    const dn = !modal ? "block" : "none"
     return (
         <div>
-
-
             <nav className="navbar1 static">
                 <div className="navbar-logo">
                     <Link href="/page1">
@@ -37,9 +34,9 @@ export const Navbar = (): JSX.Element => {
                     <Link href="/page1" className="text-gray-600">
                         BUS
                     </Link>
-                    <Link href="/People" className="text-gray-600">
+                    {checkLogin ? (<Link href="/People" className="text-gray-600">
                         TRACKING
-                    </Link>
+                    </Link>) : (null)}
                     <Link href="/TrafficLight" className="text-gray-600">
                         TRAFFIC LIGHT
                     </Link>
@@ -60,15 +57,11 @@ export const Navbar = (): JSX.Element => {
                             <img src="profileImage.png" alt="Profile Icon" className="rounded-full object-cover" />
                         </button>
                     </div>}
-                <LoginModal login={login} setLogin={setLogin} setCheckLogin={setCheckLogin} />
+                <LoginModal login={login} setLogin={setLogin} />
 
-                <UserModal modal={modal} setModal={setModal} checkLogin={checkLogin} setCheckLogin={setCheckLogin} />
+                <UserModal modal={modal} setModal={setModal} />
             </nav >
-
-
         </div>
-
-
     );
 };
 

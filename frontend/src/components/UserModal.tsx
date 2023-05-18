@@ -1,20 +1,19 @@
 import React, { useEffect, useState, useContext } from 'react'
-import axios from "axios"
-// export interface Modal {
-//     modal: boolean
-// }
+import { loginContext } from '@/utils/Context';
 import { userContext } from '@/utils/Context';
+import { useRouter } from 'next/router'
 
-export default function UserModal({ modal, setModal, checkLogin, setCheckLogin }: { modal: boolean }): JSX.Element {
+export default function UserModal({ modal, setModal }: { modal: boolean, setModal: any }): JSX.Element {
     const dn = modal ? "block" : "hidden";
+    const route = useRouter()
     const { user, setUser } = useContext(userContext)
+    const { checkLogin, setCheckLogin } = useContext(loginContext)
     function handleLogout() {
         setCheckLogin(!checkLogin)
         setModal(!modal)
+        localStorage.clear()
+        route.push("/page1")
     }
-
-
-
     return (
 
         <div id='dropdownModal' className={`${dn} mx-auto right-0 mt-2 absolute top-20 w-60 z-10  bg-white divide-y divide-gray-100 rounded-lg shadow w-60`} aria-labelledby='dropBtn'>

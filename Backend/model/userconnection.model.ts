@@ -9,7 +9,9 @@ interface IConn {
 const connSchema = new Schema<IConn>({
     requester: { type: Schema.Types.ObjectId, ref: "User" },
     recipient: { type: Schema.Types.ObjectId, ref: "User" },
-    status: { type: String, enum: ["add friends", "pending", "accepted", "rejected"] }
+    status: { type: String, enum: ["add friends", "pending", "accepted", "rejected"] },
+}, {
+    collection: "conns"
 })
 
 const Conn = model<IConn>("Conn", connSchema)

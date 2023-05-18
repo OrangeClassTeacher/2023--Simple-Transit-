@@ -1,7 +1,26 @@
 ###
-post http://localhost:9000/api/user/getAll
+post http://localhost:9000/api/user/getallnotfriends
 Content-Type: application/json
 
 {
-    "name": "amar"
+    "userId":"64657d792ac7e347e03945c4",
+    "name": "t"
+}
+
+###
+post http://localhost:9000/api/user/getallfriends
+Content-Type: application/json
+
+{
+    "userId":"64657d792ac7e347e03945c4"
+}
+
+###
+post http://localhost:9000/api/user/signup
+Content-Type: application/json
+
+{
+    "name":"test7",
+    "email":"t7@gmail.com",
+    "password":"12345678"
 }

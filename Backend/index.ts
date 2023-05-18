@@ -6,9 +6,7 @@ import connRoutes from "./routers/userConn.router"
 import busRoutes from "./routers/busroute.router"
 import userRoutes from "./routers/user.router"
 import busStops from "./routers/busstop.router"
-// const cors = require("cors");
-// const dotenv = require("dotenv")
-// const busRoutes = require("./routers/busstop.router") 
+
 
 
 dotenv.config()

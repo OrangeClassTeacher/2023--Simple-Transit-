@@ -1,11 +1,10 @@
-
 import * as turf from '@turf/turf';
 import { Graph } from "graphlib"
 
-
 const { point, distance } = turf;
 
-function findRoutes(origin: any, destination: any, busRoutesData: any, busStopData: any, map: any, setMarkerPoints: any, setInfoWindowPoints: any) {
+function findRoutes(origin: any, destination: any, busRoutesData: any, busStopData: any, map: any, setMarkerPoints: any, setInfoWindowPoints: any,
+    setDirectionsResponse: any, setStartDirectionResponse: any, setEndDirectionResponse: any, startDirectionResponse: any) {
 
     const walkingDistance = 0.5;
     const stopsWithinWalkingDistanceToStart: any = [];
@@ -92,7 +91,6 @@ function findRoutes(origin: any, destination: any, busRoutesData: any, busStopDa
         });
         return formattedPath;
     });
-    console.log("formattedRoutes", formattedRoutes);
 
     setInfoWindowPoints(formattedRoutes[0])
     if (formattedRoutes.length > 0) {
@@ -112,53 +110,8 @@ function findRoutes(origin: any, destination: any, busRoutesData: any, busStopDa
         setMarkerPoints(Arr)
         {
 
-
-            console.log("origin", origin);
-            console.log("Dest", destination);
-
-
             const directionsService = new google.maps.DirectionsService()
-            const startDirectionsRenderer = new google.maps.DirectionsRenderer({
-                map: map,
-                polylineOptions: {
-                    strokeColor: "#0000FF",
-                    strokeOpacity: 0.7,
-                    strokeWeight: 4,
-                    icons: [
-                        {
-                            icon: {
-                                path: "M 0,-1 0,1",
-                                strokeOpacity: 1,
-                                scale: 4,
-                            },
-                            offset: "0",
-                            repeat: "20px",
-                        },
-                    ],
-                },
-                suppressMarkers: true
-            });
 
-            const endDirectionsRenderer = new google.maps.DirectionsRenderer({
-                map: map,
-                polylineOptions: {
-                    strokeColor: "#0000FF",
-                    strokeOpacity: 0.7,
-                    strokeWeight: 4,
-                    icons: [
-                        {
-                            icon: {
-                                path: "M 0,-1 0,1",
-                                strokeOpacity: 1,
-                                scale: 4,
-                            },
-                            offset: "0",
-                            repeat: "20px",
-                        },
-                    ],
-                },
-                suppressMarkers: true
-            });
 
             const startDirectionsRequest = {
                 origin: { lat: origin[0], lng: origin[1] },
@@ -171,10 +124,9 @@ function findRoutes(origin: any, destination: any, busRoutesData: any, busStopDa
                 destination: { lat: destination[0], lng: destination[1] },
                 travelMode: google.maps.TravelMode.WALKING,
             };
-
             directionsService.route(startDirectionsRequest, function (response, status) {
                 if (status === google.maps.DirectionsStatus.OK) {
-                    startDirectionsRenderer.setDirections(response)
+                    setStartDirectionResponse(response);
                 } else {
                     console.log("error", status);
                 }
@@ -182,20 +134,11 @@ function findRoutes(origin: any, destination: any, busRoutesData: any, busStopDa
 
             directionsService.route(endDirectionRequest, function (response, status) {
                 if (status === google.maps.DirectionsStatus.OK) {
-                    endDirectionsRenderer.setDirections(response);
+                    setEndDirectionResponse(response);
                 } else {
                     console.log("error", status);
                 }
             });
-
-            const directionsRenderer = new google.maps.DirectionsRenderer({
-                map: map,
-                polylineOptions: {
-                    strokeColor: "#FF0000",
-                },
-                suppressMarkers: true
-            });
-
             const waypoints = Arr.slice(1, Arr.length - 1).map((coord: any) => ({
                 location: coord,
                 stopover: true,
@@ -208,18 +151,20 @@ function findRoutes(origin: any, destination: any, busRoutesData: any, busStopDa
                 travelMode: google.maps.TravelMode.DRIVING,
 
             };
-
             directionsService.route(directionsRequest, function (response, status) {
                 if (status === google.maps.DirectionsStatus.OK) {
-                    directionsRenderer.setDirections(response);
+                    setDirectionsResponse(response);
                     console.log(response);
                 } else {
                     console.log("error", status);
                 }
             });
+
+
         }
         return formattedRoutes;
     }
 }
+
 
 export default findRoutes;

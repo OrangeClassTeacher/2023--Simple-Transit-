@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 
 import { GoogleMap, useLoadScript, Polyline } from '@react-google-maps/api';
-
+const GOOGLE_MAP_API_KEY = process.env.GOOGLE_MAP_API_KEY
 
 function App() {
   const [data, setData] = useState([]);
@@ -72,7 +72,7 @@ function App() {
     lng: 106.88324,
   };
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyAhjl1X_pQkIAeTUWlWv4cKKUDqgyxDCQE'
+    googleMapsApiKey: GOOGLE_MAP_API_KEY
   });
   if (loadError) return 'Error loading maps';
   if (!isLoaded) return 'Loading Maps';
