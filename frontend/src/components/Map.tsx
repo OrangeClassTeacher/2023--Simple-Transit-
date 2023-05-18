@@ -1,9 +1,11 @@
-import { GoogleMap, useLoadScript, InfoWindow, Autocomplete, DirectionsRenderer, Marker, Polyline } from "@react-google-maps/api";
+import { GoogleMap, useLoadScript, InfoWindow, DirectionsRenderer, Marker } from "@react-google-maps/api";
 import React, { useState, useContext, useRef, useCallback, useEffect } from "react";
-import { Context } from "../utils/Context";
+import { Context, loginContext } from "../utils/Context";
 import axios from "axios";
 import { useRouter } from "next/router";
 import SideMenu from "./SideMenu";
+
+
 const libraries: any = ["places"];
 interface ILOC {
   lat: number,
@@ -11,12 +13,14 @@ interface ILOC {
 }
 
 const Map = () => {
+
   const router = useRouter()
   const [sideButton, setSideButton] = useState<boolean>(false)
   const menuButton = () => {
     setSideButton(!sideButton)
   }
   const [layerName, setLayerName] = useState("none")
+  const { checkLogin, setCheckLogin } = useContext(loginContext)
   const [busRouteData, setBusRouteData] = useState(null)
   const [destination, setDestination] = useState(null);
   const [origin, setOrigin] = useState<any>(null)
@@ -27,7 +31,7 @@ const Map = () => {
   const [travelmode, setTravelMode] = useState("WALKING")
   const [busStopData, setBusStopData] = useState(null)
   const mapRef: any = React.useRef();
-  const [map, setMap] = useState({});
+  const [map, setMap] = useState(null);
   const [traffic, setTraffic] = useState<any>();
   const [center, setCenter] = useState<ILOC>();
   const [startDirectionResponse, setStartDirectionResponse] = useState(null)
@@ -36,12 +40,16 @@ const Map = () => {
   const autocompleteRefOrigin: any = useRef(null);
   const [currentLocation, setCurrentLocation] = useState<ILOC>()
   const [place, setPlace] = useState<any>();
-
-
+  const [markerPoints, setMarkerPoints] = useState([])
+  const [infoWindowPoints, setInfoWindowPoints] = useState([])
+  const startDirectionRendererRef = useRef(null);
+  const endDirectionRendererRef = useRef(null);
+  const directionsRendererRef = useRef(null);
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_GOOGLE_API_KEY as string,
     libraries: libraries
   });
+
   const mapContainerStyle = {
     height: '90vh',
     width: '100%',
@@ -77,51 +85,42 @@ const Map = () => {
     })
     setDirectionsResponse(result)
   }
-
-  function changeTravelMode(param: string) {
-    setTravelMode(param)
-    calculateRoute(param)
-  }
-
   function clearRoute() {
     setDirectionsResponse(null)
     originRef.current.value = "",
       destinationRef.current.value = ""
     setOrigin(null)
     setDestination(null)
+    setStartDirectionResponse(null)
+    setEndDirectionResponse(null)
+    console.log(startDirectionResponse);
+    console.log(endDirectionResponse);
+    const directionsRenderer = new google.maps.DirectionsRenderer()
+    directionsRenderer.getDirections()
+    console.log(directionsRenderer.getDirections());
+
+    setMarkerPoints([])
+    setInfoWindowPoints([])
+
+  }
+  // useEffect(() => {
+  //   if (startDirectionResponse === null && endDirectionResponse === null) {
+
+  //     setStartDirectionResponse(null)
+  //     setEndDirectionResponse(null)
+  //   }
+  // }, [startDirectionResponse, endDirectionResponse]);
+  function changeTravelMode(param: string) {
+    setTravelMode(param)
+    calculateRoute(param)
   }
 
+
+
   const onMapClick = async (event: any) => {
-    const { latLng } = event;
     const lat: any = event.latLng.lat();
     const lng: any = event.latLng.lng();
     setCenter({ lat, lng });
-
-    const service = new google.maps.places.PlacesService(mapRef?.current);
-    const request: any = {
-      location: latLng,
-      radius: 500,
-      type: ["transit_station", "bus_station"]
-    };
-    console.log(latLng);
-
-    const results: any = await new Promise((resolve, reject) => {
-      service.nearbySearch(request, (results, status) => {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-          resolve(results);
-        } else {
-          reject(status);
-        }
-      });
-    });
-
-    if (results && results.length > 0) {
-      const place = results[0];
-      console.log(results);
-      console.log(place);
-      setSelectedPlace(place.name);
-    }
-
   };
 
   const handleMapLoad = useCallback((map: any) => {
@@ -193,6 +192,7 @@ const Map = () => {
   if (loadError) return <p>Error loading maps</p>;
   if (!isLoaded) return <p>Error loading maps</p>;
 
+
   return (
 
     <div style={{ position: "relative" }}>
@@ -203,11 +203,9 @@ const Map = () => {
         onClick={onMapClick}
         onLoad={handleMapLoad}
       >
-        {directionsResponse &&
-          (<DirectionsRenderer directions={directionsResponse} />)}
+        {/* {directionsResponse && (<DirectionsRenderer directions={directionsResponse} />)} */}
         {currentLocation && (<Marker position={{ lat: currentLocation.lat, lng: currentLocation.lng, }} />)}
         {currentLocation && (<InfoWindow position={currentLocation}><h1>Current Location = {place}</h1></InfoWindow>)}
-        {/* {array.length > 1 && (<Polyline path={array} options={{ strokeColor: '#FF0000' }} />)} */}
         {center && (<Marker position={{ lat: center.lat, lng: center.lng }} />)}
         {destination && (<Marker
           icon={{
@@ -224,21 +222,88 @@ const Map = () => {
             scaledSize: new window.google.maps.Size(25, 30),
             origin: new window.google.maps.Point(0, 0),
             anchor: new window.google.maps.Point(25, 25),
-          }}
+          }} position={origin}
+        />)}
+        {startDirectionResponse ? (
+          <DirectionsRenderer
+            onUnmount={setStartDirectionResponse(null)}
+            directions={startDirectionResponse}
+            ref={startDirectionRendererRef}
+            options={{
+              map: map,
+              polylineOptions: {
+                strokeColor: "#0000FF",
+                strokeOpacity: 0.7,
+                strokeWeight: 4,
+                icons: [
+                  {
+                    icon: {
+                      path: "M 0,-1 0,1",
+                      strokeOpacity: 1,
+                      scale: 4,
+                    },
+                    offset: "0",
+                    repeat: "20px",
+                  },
+                ],
+              },
+              suppressMarkers: true,
+            }}
+          />
+        ) : null}
 
-          position={origin}
-        />)
-        }
-        {startDirectionResponse &&
-          (<DirectionsRenderer directions={startDirectionResponse} />)}
-        {endDirectionResponse &&
-          (<DirectionsRenderer directions={endDirectionResponse} />)}
+        {endDirectionResponse ? (
+          <DirectionsRenderer
+            directions={endDirectionResponse}
+            ref={directionsRendererRef}
+            options={{
+              map: map,
+              polylineOptions: {
+                strokeColor: "#0000FF",
+                strokeOpacity: 0.7,
+                strokeWeight: 4,
+                icons: [
+                  {
+                    icon: {
+                      path: "M 0,-1 0,1",
+                      strokeOpacity: 1,
+                      scale: 4,
+                    },
+                    offset: "0",
+                    repeat: "20px",
+                  },
+                ],
+              },
+              suppressMarkers: true,
+            }}
+          />
+        ) : null}
+
+        {directionsResponse ? (
+          <DirectionsRenderer
+            ref={directionsRendererRef}
+            directions={directionsResponse}
+            options={{
+              map: map,
+              polylineOptions: {
+                strokeColor: "#FF0000",
+              },
+              suppressMarkers: true,
+            }}
+          />
+        ) : null}
+        {markerPoints.length > 0 && markerPoints.map((e, i) => {
+          return <Marker key={i} position={e}>
+            <InfoWindow position={e}><div>{infoWindowPoints[i].stopName}</div></InfoWindow>
+          </Marker>
+        })}
       </GoogleMap>
       <div className="absolute" style={{ top: 0, left: 0 }}>
-        <button type="button" onClick={menuButton} className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Direction</button>
+        <button type="button" onClick={menuButton} className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          {router.pathname == "/page1" ? (<h1>Direction</h1>) : (<h1>Search friends</h1>)}
+        </button>
       </div>
-      <SideMenu
-        sideButton={sideButton}
+      <SideMenu sideButton={sideButton}
         setSideButton={setSideButton}
         place={place}
         autocompleteRefOrigin={autocompleteRefOrigin}
@@ -256,6 +321,15 @@ const Map = () => {
         origin={origin}
         destination={destination}
         currentLocation={currentLocation}
+        setMarkerPoints={setMarkerPoints}
+        setInfoWindowPoints={setInfoWindowPoints}
+        infoWindowPoints={infoWindowPoints}
+        directionsResponse={directionsResponse}
+        setDirectionsResponse={setDirectionsResponse}
+        startDirectionResponse={startDirectionResponse}
+        setStartDirectionResponse={setStartDirectionResponse}
+        endDirectionResponse={endDirectionResponse}
+        setEndDirectionResponse={setEndDirectionResponse}
       />
     </div>
   );

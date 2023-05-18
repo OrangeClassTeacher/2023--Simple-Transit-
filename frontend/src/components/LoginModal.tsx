@@ -1,42 +1,28 @@
 import axios from 'axios';
-import React, { ReactHTMLElement, useEffect, useState, useContext } from 'react'
-import { useRouter } from 'next/router'
+import React, { useState, useContext } from 'react'
 import { userContext } from '@/utils/Context';
+import { loginContext } from '@/utils/Context';
 
-
-
-
-
-export default function LoginModal({ login, setLogin, setCheckLogin }: { login: boolean, setLogin: any, setCheckLogin: any }): JSX.Element {
+export default function LoginModal({ login, setLogin }: { login: boolean, setLogin: any }): JSX.Element {
     const ds = login ? "block" : "hidden";
-    const route = useRouter()
     const { user, setUser } = useContext(userContext)
-
+    const { checkLogin, setCheckLogin } = useContext(loginContext)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [loggedUser, setLoggedUser] = useState([])
-    const [loggedIn, setLoggedIn] = useState()
-
-    // useEffect(() => {
-    //     axios.get("http://localhost:9000/api/user")
-    //         .then(res => {
-    //             setLoggedIn(res.data)
-    //             console.log(loggedIn);
-
-    //         })
-    // }, [])
 
     function handleLogin(e: any) {
         e.stopPropagation();
 
         axios.post("http://localhost:9000/api/user/login", { email: email, password: password })
-            .then((res) => {
+            .then(async (res) => {
                 setLoggedUser(res.data)
                 if (res.data.status == true) {
-                    setCheckLogin(true)
-                    setUser(res.data.user)
-                    console.log(loggedUser);
+                    await setCheckLogin(true)
+                    await setUser(res.data.user)
+                    { user && console.log("user", loggedUser); localStorage.setItem("id", user._id) }
                     setLogin(false)
+
                 }
                 else alert("amjiltgui")
             })
@@ -54,7 +40,7 @@ export default function LoginModal({ login, setLogin, setCheckLogin }: { login: 
                     </button>
                     <div className="px-6 py-6 lg:px-8">
                         <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">Sign in to our platform</h3>
-                        <form className="space-y-6" action="#">
+                        <div className="space-y-6" >
                             <div>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
                                 <input
@@ -75,19 +61,14 @@ export default function LoginModal({ login, setLogin, setCheckLogin }: { login: 
                                     placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
                             </div>
                             <div className="flex justify-between">
-                                {/* <div className="flex items-start">
-                                    <div className="flex items-center h-5">
-                                        <input id="remember" type="checkbox" value="" className="w-4 h-4 border border-gray-300 rounded bg-gray-50  focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" required />
-                                    </div>
-                                    <label htmlFor="remember" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Remember me</label>
-                                </div> */}
+
                                 <a href="#" className="text-sm text-blue-700 hover:underline dark:text-blue-500">Lost Password?</a>
                             </div>
                             <button type="submit" onClick={(e) => handleLogin(e)} className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login to your account</button>
                             <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
                                 Not registered? <a href="/Register" className="text-blue-700 hover:underline dark:text-blue-500">Create account</a>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
