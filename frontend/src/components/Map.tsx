@@ -1,10 +1,10 @@
 import { GoogleMap, useLoadScript, InfoWindow, DirectionsRenderer, Marker } from "@react-google-maps/api";
-import React, { useState, useContext, useRef, useCallback, useEffect } from "react";
-import { Context, loginContext } from "../utils/Context";
+import React, { useState, useRef, useCallback, useEffect } from "react";
+
 import axios from "axios";
 import { useRouter } from "next/router";
 import SideMenu from "./SideMenu";
-
+import Utils from "@/utils/utils";
 
 const libraries: any = ["places"];
 interface ILOC {
@@ -12,40 +12,39 @@ interface ILOC {
   lng: number
 }
 
-const Map = () => {
+const Map = (): any => {
 
   const router = useRouter()
   const [sideButton, setSideButton] = useState<boolean>(false)
-  const menuButton = () => {
+  const menuButton = (): any => {
     setSideButton(!sideButton)
   }
   const [layerName, setLayerName] = useState("none")
-  const { checkLogin, setCheckLogin } = useContext(loginContext)
-  const [busRouteData, setBusRouteData] = useState(null)
-  const [destination, setDestination] = useState(null);
+  // const { checkLogin, setCheckLogin } = useContext(loginContext)
+  const [busRouteData, setBusRouteData] = useState<any>(null)
+  const [destination, setDestination] = useState<any>(null);
   const [origin, setOrigin] = useState<any>(null)
-  const { selectedPlace, setSelectedPlace } = useContext(Context)
-  const [directionsResponse, setDirectionsResponse] = useState(null)
+  const [directionsResponse, setDirectionsResponse] = useState<any>(null)
   const originRef: any = useRef<HTMLInputElement>()
   const destinationRef: any = useRef<HTMLInputElement>()
   const [travelmode, setTravelMode] = useState("WALKING")
   const [busStopData, setBusStopData] = useState(null)
   const mapRef: any = React.useRef();
-  const [map, setMap] = useState(null);
+  const [map, setMap] = useState<any>(null);
   const [traffic, setTraffic] = useState<any>();
   const [center, setCenter] = useState<ILOC>();
-  const [startDirectionResponse, setStartDirectionResponse] = useState(null)
-  const [endDirectionResponse, setEndDirectionResponse] = useState(null)
+  const [startDirectionResponse, setStartDirectionResponse] = useState<any>(null)
+  const [endDirectionResponse, setEndDirectionResponse] = useState<any>(null)
   const autocompleteRefDest: any = useRef(null);
   const autocompleteRefOrigin: any = useRef(null);
   const [currentLocation, setCurrentLocation] = useState<ILOC>()
   const [place, setPlace] = useState<any>();
   const [markerPoints, setMarkerPoints] = useState([])
-  const [infoWindowPoints, setInfoWindowPoints] = useState([])
-  const startDirectionRendererRef = useRef(null);
-  const endDirectionRendererRef = useRef(null);
-  const directionsRendererRef = useRef(null);
-  const { isLoaded, loadError } = useLoadScript({
+  const [infoWindowPoints, setInfoWindowPoints] = useState<any>([])
+  const startDirectionRendererRef: any = useRef(null);
+  // const endDirectionRendererRef: any = useRef(null);
+  const directionsRendererRef: any = useRef(null);
+  const { isLoaded, loadError }: any = useLoadScript({
     googleMapsApiKey: process.env.NEXT_GOOGLE_API_KEY as string,
     libraries: libraries
   });
@@ -53,10 +52,10 @@ const Map = () => {
   const mapContainerStyle = {
     height: '90vh',
     width: '100%',
-    position: "relative"
+
   };
   useEffect(() => {
-    axios.get("http://localhost:9000/api/busroutes")
+    axios.get(`${Utils.API_URL}/busroutes`)
       .then((res) => setBusRouteData(res.data.result))
   }, [])
 
@@ -68,11 +67,11 @@ const Map = () => {
   }, [router.pathname])
   useEffect(() => {
     axios
-      .get("http://localhost:9000/api/busstops")
+      .get(`${Utils.API_URL}/busstops`)
       .then((res) => setBusStopData(res.data.result));
   }, []);
 
-  async function calculateRoute(param: any) {
+  async function calculateRoute(param: any): Promise<any> {
     if (destinationRef?.current?.value === "") {
       return
     }
@@ -85,7 +84,17 @@ const Map = () => {
     })
     setDirectionsResponse(result)
   }
-  function clearRoute() {
+
+  // const [directions, setDirections] = useState(null);
+  // const handleDirectionsLoad = (directions:any) => {
+  //   setDirections(directions);
+  // };
+  // const handleDirectionsUnmount = () => {
+  //   if (directionsRendererRef.current) {
+  //     directionsRendererRef.current.setDirections(null);
+  //   }
+  // };
+  function clearRoute(): any {
     setDirectionsResponse(null)
     originRef.current.value = "",
       destinationRef.current.value = ""
@@ -95,35 +104,31 @@ const Map = () => {
     setEndDirectionResponse(null)
     console.log(startDirectionResponse);
     console.log(endDirectionResponse);
-    const directionsRenderer = new google.maps.DirectionsRenderer()
-    directionsRenderer.getDirections()
-    console.log(directionsRenderer.getDirections());
+    if (directionsRendererRef.current) {
+      directionsRendererRef.current.setMap(null);
+      console.log(directionsRendererRef.current);
+
+    }
 
     setMarkerPoints([])
     setInfoWindowPoints([])
 
   }
-  // useEffect(() => {
-  //   if (startDirectionResponse === null && endDirectionResponse === null) {
 
-  //     setStartDirectionResponse(null)
-  //     setEndDirectionResponse(null)
-  //   }
-  // }, [startDirectionResponse, endDirectionResponse]);
-  function changeTravelMode(param: string) {
+  function changeTravelMode(param: string): any {
     setTravelMode(param)
     calculateRoute(param)
   }
 
 
 
-  const onMapClick = async (event: any) => {
-    const lat: any = event.latLng.lat();
-    const lng: any = event.latLng.lng();
-    setCenter({ lat, lng });
+  const onMapClick = async (event: any): Promise<void> => {
+    const lat: any = await event.latLng.lat();
+    const lng: any = await event.latLng.lng();
+    setCenter({ lat, lng })
   };
 
-  const handleMapLoad = useCallback((map: any) => {
+  const handleMapLoad = useCallback((map: any): void => {
     mapRef.current = map;
     setMap(map);
     setTraffic(new window.google.maps.TrafficLayer());
@@ -157,7 +162,7 @@ const Map = () => {
   useEffect(() => {
     if (isLoaded) {
       navigator.geolocation.getCurrentPosition(
-        async (position) => {
+        async (position): Promise<any> => {
           setCurrentLocation({
             lat: position.coords.latitude,
             lng: position.coords.longitude,
@@ -169,22 +174,24 @@ const Map = () => {
           const data = await response.json();
 
           if (data.status === 'OK') {
-            setPlace(data.results[0].formatted_address);
+            setPlace(data.geometry.location)
             await place && console.log("place", place);
+          } else {
+            return "error"
           }
         },
-        () => null,
+        (): any => null,
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
       );
     }
   }, [isLoaded]);
 
-  const handleDestination = () => {
+  const handleDestination = (): any => {
     const place: any = autocompleteRefDest?.current?.getPlace();
     setDestination(place.geometry.location);
   };
 
-  const handleOrigin = () => {
+  const handleOrigin = (): any => {
     const place: any = autocompleteRefOrigin?.current?.getPlace();
     setOrigin(place.geometry.location)
   }
@@ -226,7 +233,7 @@ const Map = () => {
         />)}
         {startDirectionResponse ? (
           <DirectionsRenderer
-            onUnmount={setStartDirectionResponse(null)}
+
             directions={startDirectionResponse}
             ref={startDirectionRendererRef}
             options={{
@@ -281,6 +288,7 @@ const Map = () => {
 
         {directionsResponse ? (
           <DirectionsRenderer
+
             ref={directionsRendererRef}
             directions={directionsResponse}
             options={{
@@ -292,11 +300,11 @@ const Map = () => {
             }}
           />
         ) : null}
-        {markerPoints.length > 0 && markerPoints.map((e, i) => {
-          return <Marker key={i} position={e}>
+        {markerPoints.length > 0 && markerPoints.map((e, i) => (
+          <Marker key={i} position={e}>
             <InfoWindow position={e}><div>{infoWindowPoints[i].stopName}</div></InfoWindow>
           </Marker>
-        })}
+        ))}
       </GoogleMap>
       <div className="absolute" style={{ top: 0, left: 0 }}>
         <button type="button" onClick={menuButton} className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
