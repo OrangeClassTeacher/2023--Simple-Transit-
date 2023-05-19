@@ -3,8 +3,8 @@ import { Graph } from "graphlib"
 
 const { point, distance } = turf;
 
-function findRoutes(origin: any, destination: any, busRoutesData: any, busStopData: any, map: any, setMarkerPoints: any, setInfoWindowPoints: any,
-    setDirectionsResponse: any, setStartDirectionResponse: any, setEndDirectionResponse: any, startDirectionResponse: any) {
+function findRoutes(origin: any, destination: any, busRoutesData: any, busStopData: any, setMarkerPoints: any, setInfoWindowPoints: any,
+    setDirectionsResponse: any, setStartDirectionResponse: any, setEndDirectionResponse: any): any {
 
     const walkingDistance = 0.5;
     const stopsWithinWalkingDistanceToStart: any = [];
@@ -95,7 +95,7 @@ function findRoutes(origin: any, destination: any, busRoutesData: any, busStopDa
     setInfoWindowPoints(formattedRoutes[0])
     if (formattedRoutes.length > 0) {
         console.log(formattedRoutes);
-        let newStops = formattedRoutes[0].map((e: any) => e.stopName)
+        const newStops = formattedRoutes[0].map((e: any) => e.stopName)
         console.log(newStops);
         console.log(busStopData);
         const newArra = busStopData.filter((e: any) =>

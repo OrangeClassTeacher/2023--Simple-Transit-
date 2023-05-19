@@ -1,15 +1,13 @@
 import { Layout } from '@/components/Layout'
-import { ITestCom, TestCom } from '@/components/TestCom'
-import React, { useState } from 'react'
+import React from 'react'
 
-interface indexProps {
-    name: string
-}
 
-export default function index({ name }: indexProps): JSX.Element {
+export default function index(): JSX.Element {
     return (
         <Layout>
-
+            <div>
+                a
+            </div>
         </Layout>
     )
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import { loginContext } from '@/utils/Context';
 import { userContext } from '@/utils/Context';
 import { useRouter } from 'next/router'
@@ -6,9 +6,9 @@ import { useRouter } from 'next/router'
 export default function UserModal({ modal, setModal }: { modal: boolean, setModal: any }): JSX.Element {
     const dn = modal ? "block" : "hidden";
     const route = useRouter()
-    const { user, setUser } = useContext(userContext)
+    const { user } = useContext(userContext)
     const { checkLogin, setCheckLogin } = useContext(loginContext)
-    function handleLogout() {
+    function handleLogout(): any {
         setCheckLogin(!checkLogin)
         setModal(!modal)
         localStorage.clear()
@@ -48,7 +48,7 @@ export default function UserModal({ modal, setModal }: { modal: boolean, setModa
                     </ul>
                 </div>
                 <div className="">
-                    <button onClick={() => handleLogout()} className="w-full px-4 py-2 pb-4 bg-red-700 hover:bg-red-500 flex">
+                    <button onClick={(): any => handleLogout()} className="w-full px-4 py-2 pb-4 bg-red-700 hover:bg-red-500 flex">
                         <p className="text-lg font-medium text-white leading-none mx-auto ps-auto"> Logout
                         </p>
                     </button>
