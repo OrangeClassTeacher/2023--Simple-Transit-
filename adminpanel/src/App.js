@@ -1,7 +1,7 @@
 import "./App.css";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-
+import Utils from "./utils/utils";
 import { GoogleMap, useLoadScript, Polyline } from '@react-google-maps/api';
 const GOOGLE_MAP_API_KEY = process.env.GOOGLE_MAP_API_KEY
 
@@ -16,7 +16,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:9000/api/busstops")
+      .get(`${Utils.API_URL}/busstops`)
       .then((res) => setData(res.data.result));
   }, []);
 
@@ -27,7 +27,7 @@ function App() {
   }
 
   function addRoute() {
-    axios.get("http://localhost:9000/api/busstops").then((res) => {
+    axios.get(`${Utils.API_URL}/busstops`).then((res) => {
       const allStops = res.data.result;
       const filteredStops = allStops
         .filter((stop) => selectedBusStops.includes(stop.busStopName))
@@ -50,7 +50,7 @@ function App() {
 
   function onAdd() {
     axios
-      .post("http://localhost:9000/api/busroutes/create", {
+      .post(`${Utils.API_URL}/busroutes/create`, {
         busRouteName: routeName,
         busStopDetails: routes,
         busRouteId: routeId,

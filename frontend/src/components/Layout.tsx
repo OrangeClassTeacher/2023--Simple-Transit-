@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode } from 'react'
 import { Meta } from './Meta'
 import { Navbar } from './Navbar'
 import Map from './Map'
@@ -7,7 +7,7 @@ interface MyProfs {
     children: ReactNode
 }
 
-export const Layout = ({ children }: MyProfs): any => {
+export function Layout({ children }: MyProfs): any {
     return (
         <>
             <Meta />
