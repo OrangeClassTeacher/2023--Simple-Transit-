@@ -142,120 +142,136 @@ export default function SideMenu({
 
                     <span className="sr-only" >Close menu</span>
                 </button>
-                {router.pathname == "/page1" ? (<div className="py-4 overflow-y-auto">
-                    <button onClick={(): any => changeTravelMode("WALKING")}>
-                        <Image
-                            src="/walking-icon.jpg"
-                            alt=""
-                            width={50}
-                            height={50}
-                        />
-                    </button>
-                    <button onClick={(): any => changeTravelMode("DRIVING")}>
-                        <Image
-                            src="/driving-icon.png"
-                            alt=""
-                            width={50}
-                            height={50}
-                        />
-                    </button>
-                    <button
-                        onClick={(): any => findRoutes(
-                            origin ? [origin.lat(), origin.lng()] : [currentLocation.lat, currentLocation.lng],
-                            destination ? [destination.lat(), destination.lng()] : null,
-                            busRouteData,
-                            busStopData,
+                {router.pathname == "/page1" ?
+                    (<div className="py-4 overflow-y-auto">
+                        <div className='flex justify-around border-b-black direcIcons focus:bg-slate-700'>
+                            <button onClick={(): any => changeTravelMode("WALKING")}>
+                                <Image
+                                    src="/walking-icon.jpg"
+                                    alt=""
+                                    width={50}
+                                    height={50}
+                                />
+                            </button>
+                            <button onClick={(): any => changeTravelMode("DRIVING")}>
+                                <Image
+                                    src="/driving-icon.png"
+                                    alt=""
+                                    width={50}
+                                    height={50}
+                                />
+                            </button>
+                            <button
+                                onClick={(): any => findRoutes(
+                                    origin ? [origin.lat(), origin.lng()] : [currentLocation.lat, currentLocation.lng],
+                                    destination ? [destination.lat(), destination.lng()] : null,
+                                    busRouteData,
+                                    busStopData,
 
-                            setMarkerPoints,
-                            setInfoWindowPoints,
-                            setDirectionsResponse,
-                            setStartDirectionResponse,
-                            setEndDirectionResponse
-                        )}>
-                        <Image
-                            src="/bus-icon.jpg"
-                            alt=""
-                            width={50}
-                            height={50}
-                        />
-                    </button>
-                    <button onClick={(): any => calculateRoute("WALKING")}>
-                        Calculate route
-                    </button>
-                    <Autocomplete
-                        onLoad={(autocomplete): any => (autocompleteRefOrigin.current = autocomplete)}
-                        onPlaceChanged={handleOrigin}
-                    >
-                        <input style={{ zIndex: "10" }} type="text" placeholder={place} ref={originRef} />
-                    </Autocomplete>
-                    <Autocomplete
-                        onLoad={(autocomplete): any => (autocompleteRefDest.current = autocomplete)}
-                        onPlaceChanged={handleDestination}
-                    >
+                                    setMarkerPoints,
+                                    setInfoWindowPoints,
+                                    setDirectionsResponse,
+                                    setStartDirectionResponse,
+                                    setEndDirectionResponse
+                                )}>
+                                <Image
+                                    src="/bus-icon.jpg"
+                                    alt=""
+                                    width={50}
+                                    height={50}
+                                />
+                            </button>
+                        </div>
+                        <div className='mt-2'>
+                            <div className='flex'>
 
-                        <input style={{ zIndex: "1" }} type="text" placeholder="destination" ref={destinationRef} />
-                    </Autocomplete>
-                    <button onClick={(): any => clearRoute()}>
-                        Clear routes
-                    </button>
-                    <hr />
-                    {originRef?.current?.value ? (
-                        <div>
-                            <h1>{originRef?.current?.value}</h1>
-                        </div>
-                    ) :
-                        (<div>
-                            {place}
-                        </div>)
-                    }
+                                <img src="/my-location-icon.png" alt="icon" className='inputIcon' />
+                                <Autocomplete
+                                    onLoad={(autocomplete): any => (autocompleteRefOrigin.current = autocomplete)}
+                                    onPlaceChanged={handleOrigin}
+                                >
 
-                    <div>
-                        Walk
-                    </div>
-                    <hr />
-                    {infoWindowPoints.length > 0 && (
-                        <div>
-                            {infoWindowPoints[0].stopName}
-                            <br />
-                            Bus
-                            <br />
-                            {infoWindowPoints[infoWindowPoints.length - 1].stopName}
+                                    <input style={{ zIndex: "10" }} className="bg-gray-50  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500" type="text" placeholder={place} ref={originRef} />
+                                </Autocomplete>
+                            </div>
+                            <div className='flex '>
+                                <img src="/marker.png" alt="icon" className='inputIcon' />
+                                <Autocomplete
+                                    onLoad={(autocomplete): any => (autocompleteRefDest.current = autocomplete)}
+                                    onPlaceChanged={handleDestination}
+                                >
+
+                                    <input style={{ zIndex: "1" }} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500" type="text" placeholder="destination" ref={destinationRef} />
+                                </Autocomplete>
+
+                            </div>
                         </div>
-                    )}
-                    <hr />
-                    <div>
-                        Walk
-                    </div>
-                    {destinationRef?.current?.value && (
-                        <div>
-                            <h1>{destinationRef?.current?.value}</h1>
+                        <div className='mt-2 flex justify-center'>
+                            <button className='px-3 py-2 text-xs text-white bg-blue-700 hover:bg-blue-800 rounded-lg text-sm px-5 py-2.5 mr-2 mb-2' onClick={(): any => calculateRoute("WALKING")}>
+                                Calculate route
+                            </button>
+                            <button className='px-3 py-2 text-xs text-gray-900 bg-white hover:bg-gray-100 border border-gray-300 rounded-lg text-sm px-5 py-2.5 mr-2 mb-2' onClick={(): any => clearRoute()}>
+                                Clear routes
+                            </button>
                         </div>
-                    )}
-                </div>) :
+                        <hr />
+                        {originRef?.current?.value ? (
+                            <div>
+                                <h1>{originRef?.current?.value}</h1>
+                            </div>
+                        ) :
+                            (<div>
+                                {place}
+                            </div>)
+                        }
+
+                        <div>
+                            Walk
+                        </div>
+                        <hr />
+                        {infoWindowPoints.length > 0 && (
+                            <div>
+                                {infoWindowPoints[0].stopName}
+                                <br />
+                                Bus
+                                <br />
+                                {infoWindowPoints[infoWindowPoints.length - 1].stopName}
+                            </div>
+                        )}
+                        <hr />
+                        <div>
+                            Walk
+                        </div>
+                        {destinationRef?.current?.value && (
+                            <div>
+                                <h1>{destinationRef?.current?.value}</h1>
+                            </div>
+                        )}
+                    </div>) :
                     (<div>
                         <div className='relative mt-3'>
                             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z">clear</path></svg>
                             </div>
                             <input className='block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500' placeholder='Search Friend' value={userSearch}
-                                onChange={(e) => setUserSearch(e.target.value)}
+                                onChange={(e): any => setUserSearch(e.target.value)}
                             />
-                            <button className='text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2' onClick={() => filterFriends()}>
+                            <button className='text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2' onClick={(): any => filterFriends()}>
                                 Search
                             </button>
 
                         </div>
-                        {/* {userData && userData.map((e, i) => {
-                                return <div key={i} className="flex justify-between mt-2">
-                                    {e.name}
-                                    <button className='px-3 py-2 text-xs text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2' onClick={() => addFriend(e._id)} >Add friend</button>
-                                </div>
-                            }) */}
-                        < input placeholder='search' value={userSearch} onChange={(e): any => setUserSearch(e.target.value)} />
+                        {userData && userData.map((e, i) => {
+                            return <div key={i} className="flex justify-between mt-2">
+                                {e.name}
+                                <button className='px-3 py-2 text-xs text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2' onClick={() => addFriend(e._id)} >Add friend</button>
+                            </div>
+                        })}
+                        {/* < input placeholder='search' value={userSearch} onChange={(e): any => setUserSearch(e.target.value)} />
                         <button onClick={(): any => filterFriends()}>
                             Search
-                        </button>
-                        {
+                        </button> */}
+                        {/* {
                             userData && userData.map((e: any, i: any) => (
                                 <div key={i}>
                                     {e.name}
@@ -263,7 +279,7 @@ export default function SideMenu({
                                 </div>
                             ))
 
-                        }
+                        } */}
                     </div>)}
             </div>
         </div>

@@ -16,11 +16,11 @@ type Props = {
     onSendFriendRequest: (userId: number) => void;
 }
 
-const UserCard: React.FC<Props> = ({ user, onAddFriend, onUnfriend, onSendFriendRequest }) => {
-    const [isHovering, setIsHovering] = useState(false);
-    const [userID, setUserId] = useState()
+const UserCard: React.FC<Props> = ({ user, onUnfriend, onSendFriendRequest }) => {
+    const [isHovering, setIsHovering] = useState<any>(false);
+    // const [userID, setUserId] = useState()
 
-    const handleAddFriendClick = () => {
+    const handleAddFriendClick = (): any => {
         axios.post("http://localhost:9000/api/user/login", { user })
             .then((res) => console.log(res.data)
             )
@@ -28,19 +28,19 @@ const UserCard: React.FC<Props> = ({ user, onAddFriend, onUnfriend, onSendFriend
 
     };
 
-    const handleUnfriendClick = () => {
+    const handleUnfriendClick = (): any => {
         onUnfriend(user.id);
     };
 
-    const handleSendFriendRequestClick = () => {
+    const handleSendFriendRequestClick = (): any => {
         onSendFriendRequest(user.id);
     };
 
     return (
         <div
             className="user-card"
-            onMouseEnter={() => setIsHovering(true)}
-            onMouseLeave={() => setIsHovering(false)}
+            onMouseEnter={(): any => setIsHovering(true)}
+            onMouseLeave={(): any => setIsHovering(false)}
         >
             <h3>{user.name}</h3>
             {user.isFriend ? (
