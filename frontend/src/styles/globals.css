@@ -113,3 +113,15 @@
 #drawer-disabled-backdrop {
   left: 320px;
 }
+
+.direcIcons {
+  border-bottom: 2px solid black;
+}
+
+.inputIcon {
+  width: 20px;
+  height: 20px;
+  margin: auto 1.5rem;
+  margin-left: 0;
+
+}
