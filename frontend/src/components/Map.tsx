@@ -166,7 +166,7 @@ const Map = (): any => {
   useEffect(() => {
     if (isLoaded) {
       navigator.geolocation.getCurrentPosition(
-        async (position) => {
+        async (position): Promise<any> => {
           setCurrentLocation({
             lat: position.coords.latitude,
             lng: position.coords.longitude,

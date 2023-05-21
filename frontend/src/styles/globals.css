@@ -1,9 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed:wght@300&display=swap');
+
+* {
+  font-family: 'Bebas Neue', sans-serif;
+}
 
 .body {
-  font-family: ' Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Bebas Neue', sans-serif;
+  font-family: 'Roboto Condensed', sans-serif;
 }
 
 .button1 {
@@ -112,4 +118,24 @@
 
 #drawer-disabled-backdrop {
   left: 320px;
+}
+
+.walkingButton:active {
+  background-color: teal;
+}
+
+.direcIcons {
+  border-bottom: 2px solid black;
+}
+
+.inputIcon {
+  width: 20px;
+  height: 20px;
+  margin: auto 1.5rem;
+  margin-left: 0;
+
+}
+
+#filterUser {
+  border-bottom: 1px solid gray;
 }

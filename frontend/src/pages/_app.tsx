@@ -18,10 +18,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
           </loginContext.Provider>
 
         </userContext.Provider>
-
       </Context.Provider>
-
-
     </>
   )
 }
