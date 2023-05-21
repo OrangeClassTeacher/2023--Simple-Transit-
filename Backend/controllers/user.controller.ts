@@ -11,16 +11,29 @@ interface IUser {
     email: string;
     password: string;
 }
+const addLocationField = async (req: Request, res: Response) => {
+    try {
+        const users = await User.find({});
+        users.forEach(async (user) => {
+            user.location = []; // Set an empty array for the location field
+            await user.save();
 
+        });
+        res.json({ status: true, users })
+    } catch (error) {
+        res.json({ status: false, message: error })
+        return
+    }
+}
 
 const Signup = async (req: Request, res: Response) => {
 
     try {
-        const { name, email, password } = req.body
+        const { name, email, password, image } = req.body
         const newPassword = await bcrypt.hash(password, saltRounds);
-        const result = await User.create({ name, email, password: newPassword });
+        const result = await User.create({ name, email, password: newPassword, image });
 
-        res.json({ message: "success", result })
+        res.json({ status: true, message: "success", result })
 
     }
     catch (err) {
@@ -34,8 +47,9 @@ const Signup = async (req: Request, res: Response) => {
 
 const Login = async (req: Request, res: Response) => {
     try {
+        console.log(req.body);
 
-        const { email, password } = req.body
+        const { email, password, location } = req.body
         let user: any = await User.findOne({ email: email })
 
         if (email == user.email) {
@@ -45,17 +59,21 @@ const Login = async (req: Request, res: Response) => {
             );
 
             if (decrypt) {
-                res.json({ status: true, message: "Logged in", user })
-
+                if (location) {
+                    user.location = location;
+                    await user.save();
+                }
+                await res.json({ status: true, message: "Logged in", user })
+                return
             }
             else {
                 res.json({ message: "Wrong email or password" })
-
+                return
             }
         }
     }
     catch (err) {
-        res.json({ status: "false", message: err })
+        res.json({ status: false, message: err })
     }
 }
 
@@ -108,4 +126,4 @@ const getAllFriends = async (req: Request, res: Response) => {
     }
 }
 
-export { Login, Signup, getAllNotFriends, getAllFriends }
+export { Login, Signup, getAllNotFriends, getAllFriends, addLocationField }

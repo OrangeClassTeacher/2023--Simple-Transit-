@@ -2,18 +2,28 @@ import React, { useState, useContext, useEffect } from "react";
 import Link from 'next/link'
 import UserModal from "./UserModal";
 import LoginModal from "./LoginModal";
-import { loginContext } from "@/utils/Context";
+import { loginContext, userContext } from "@/utils/Context";
 
 
 export const Navbar = (): JSX.Element => {
-
+    const { user, setUser } = useContext<any>(userContext)
     const [modal, setModal] = useState<any>(false)
     const [login, setLogin] = useState<any>(false)
     const { checkLogin, setCheckLogin } = useContext<any>(loginContext)
 
+
     useEffect(() => {
-        if (localStorage.getItem("id")) {
+
+
+        if (localStorage.getItem("name")) {
             setCheckLogin(true)
+            setUser({
+                ...user,
+                name: localStorage.getItem("name"),
+                email: localStorage.getItem("email"),
+                image: localStorage.getItem("image"),
+                _id: localStorage.getItem("id")
+            })
         }
     }, [checkLogin])
 
@@ -55,7 +65,7 @@ export const Navbar = (): JSX.Element => {
                 </div> :
                     <div className="navbar-profile" style={{ display: "block" }}>
                         <button id="dropBtn" onClick={handleModal} >
-                            <img src="profileImage.png" alt="Profile Icon" className="rounded-full object-cover" />
+                            <img src={user.image} alt="Profile Icon" className="rounded-full object-cover" />
                         </button>
                     </div>}
                 <LoginModal login={login} setLogin={setLogin} />

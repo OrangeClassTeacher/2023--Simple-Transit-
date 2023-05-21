@@ -1,33 +1,49 @@
 import axios from 'axios';
 import React, { useState, useContext } from 'react'
 import { userContext } from '@/utils/Context';
-import { loginContext } from '@/utils/Context';
+import { loginContext, Context } from '@/utils/Context';
 import Utils from '@/utils/utils';
 import Link from 'next/link';
 export default function LoginModal({ login, setLogin }: { login: boolean, setLogin: any }): any {
     const ds = login ? "block" : "hidden";
     const { user, setUser } = useContext(userContext)
     const { setCheckLogin } = useContext(loginContext)
+    const { selectedLocation } = useContext(Context)
     const [email, setEmail] = useState<any>('')
     const [password, setPassword] = useState<any>('')
     const [loggedUser, setLoggedUser] = useState<any>([])
+    { selectedLocation.length > 0 && console.log(selectedLocation); }
 
     function handleLogin(e: any): any {
         e.stopPropagation();
 
-        axios.post(`${Utils.API_URL}/user/login`, { email: email, password: password })
-            .then(async (res) => {
-                setLoggedUser(res.data)
-                if (res.data.status == true) {
-                    await setCheckLogin(true)
-                    await setUser(res.data.user)
-                    { user && console.log("user", loggedUser); localStorage.setItem("id", user._id) }
-                    setLogin(false)
+        if (selectedLocation.length > 0) {
+            console.log(email, password, selectedLocation);
 
-                }
-                else alert("amjiltgui")
-            })
-            .catch((err) => console.log(err))
+            axios.post(`${Utils.API_URL}/user/login`, { email: email, password: password, location: selectedLocation })
+                .then(async (res) => {
+                    await setLoggedUser(res.data)
+                    console.log(res.data);
+
+                    if (res.data.status == true) {
+                        await setCheckLogin(true)
+                        await setUser(res.data.user)
+                        {
+                            user &&
+                                localStorage.setItem("name", res.data.user.name);
+                            localStorage.setItem("email", res.data.user.email);
+                            localStorage.setItem("image", res.data.user.image);
+                            localStorage.setItem("id", res.data.user._id);
+                            console.log(user);
+
+                        }
+                        setLogin(false)
+
+                    }
+                    else alert("amjiltgui")
+                })
+                .catch((err) => console.log(err))
+        }
     }
 
 

@@ -19,7 +19,7 @@ export default function UserModal({ modal, setModal }: { modal: boolean, setModa
         <div id='dropdownModal' className={`${dn} mx-auto right-0 mt-2 absolute top-20 w-60 z-10  bg-white divide-y divide-gray-100 rounded-lg shadow w-60`} aria-labelledby='dropBtn'>
             <div className="bg-white rounded overflow-hidden shadow-lg">
                 <div className="text-center p-6 bg-gray-800 border-b">
-                    <img src="profileImage.png" alt="Profile Icon" className="rounded-full object-cover h-full settingPro mx-auto" width={50} height={50} />
+                    <img src={user.image} alt="Profile Icon" className="rounded-full object-cover h-full settingPro mx-auto" width={50} height={50} />
                     <p className="pt-2 text-lg font-semibold text-gray-50">{user.name} </p>
                     <p className="text-sm text-gray-100">{user.email}</p>
                     <div className="mt-5">

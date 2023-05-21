@@ -1,10 +1,11 @@
-import { GoogleMap, useLoadScript, InfoWindow, DirectionsRenderer, Marker } from "@react-google-maps/api";
-import React, { useState, useRef, useCallback, useEffect } from "react";
 
+import React, { useState, useRef, useCallback, useEffect, useContext } from "react";
+import { GoogleMap, useLoadScript, InfoWindow, DirectionsRenderer, Marker } from "@react-google-maps/api";
 import axios from "axios";
 import { useRouter } from "next/router";
 import SideMenu from "./SideMenu";
 import Utils from "@/utils/utils";
+import { Context } from "@/utils/Context";
 
 const libraries: any = ["places"];
 interface ILOC {
@@ -20,7 +21,7 @@ const Map = (): any => {
     setSideButton(!sideButton)
   }
   const [layerName, setLayerName] = useState("none")
-  // const { checkLogin, setCheckLogin } = useContext(loginContext)
+  const { setSelectedLocation } = useContext(Context)
   const [busRouteData, setBusRouteData] = useState<any>(null)
   const [destination, setDestination] = useState<any>(null);
   const [origin, setOrigin] = useState<any>(null)
@@ -38,7 +39,7 @@ const Map = (): any => {
   const autocompleteRefDest: any = useRef(null);
   const autocompleteRefOrigin: any = useRef(null);
   const [currentLocation, setCurrentLocation] = useState<ILOC>()
-  const [place, setPlace] = useState<any>();
+  const [place, setPlace] = useState<any>(null);
   const [markerPoints, setMarkerPoints] = useState([])
   const [infoWindowPoints, setInfoWindowPoints] = useState<any>([])
   const startDirectionRendererRef: any = useRef(null);
@@ -66,8 +67,11 @@ const Map = (): any => {
     else setLayerName("none")
   }, [router.pathname])
   useEffect(() => {
+    console.log(Utils.API_URL);
     axios
       .get(`${Utils.API_URL}/busstops`)
+
+
       .then((res) => setBusStopData(res.data.result));
   }, []);
 
@@ -167,17 +171,19 @@ const Map = (): any => {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           });
+          const newArr: any = []
+          newArr.push(position.coords.latitude, position.coords.longitude)
+          setSelectedLocation(newArr)
 
           const response = await fetch(
             `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=${process.env.NEXT_GOOGLE_API_KEY}`
           );
           const data = await response.json();
 
+
           if (data.status === 'OK') {
-            setPlace(data.geometry.location)
-            await place && console.log("place", place);
-          } else {
-            return "error"
+            await setPlace(data.results[0].formatted_address)
+
           }
         },
         (): any => null,

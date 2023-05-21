@@ -1,5 +1,5 @@
 import { Layout } from '@/components/Layout'
-
+import Map from '@/components/Map'
 import React from 'react'
 
 
@@ -9,9 +9,8 @@ export default function index(): JSX.Element {
 
     return (
         <Layout>
-            <div>
-                a
-            </div>
+            <Map />
+
         </Layout>
     )
 }

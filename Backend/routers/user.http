@@ -20,7 +20,22 @@ post http://localhost:9000/api/user/signup
 Content-Type: application/json
 
 {
-    "name":"Bitaamin",
-    "email":"htamir80@gmail.com",
-    "password":"Tamirpro133"
+    "name":"test7",
+    "email":"t7@gmail.com",
+    "password":"12345678"
 }
+
+###
+post http://localhost:9000/api/user/login
+Content-Type: application/json
+
+{
+  
+    "email":"test10.gmail.com",
+    "password":"12345678",
+    "location":[47.92496571176237,106.9284247416154]
+    }
+
+### 
+get http://localhost:9000/api/user/updatelocation
+Content-Type: application/application/json
