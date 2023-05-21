@@ -1,7 +1,7 @@
 import "./App.css";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import Utils from "./utils/utils";
+import Utils from "./utils.js/utils";
 import { GoogleMap, useLoadScript, Polyline } from '@react-google-maps/api';
 const GOOGLE_MAP_API_KEY = process.env.GOOGLE_MAP_API_KEY
 

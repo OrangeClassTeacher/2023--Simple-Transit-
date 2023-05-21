@@ -6,7 +6,8 @@ import connRoutes from "./routers/userConn.router"
 import busRoutes from "./routers/busroute.router"
 import userRoutes from "./routers/user.router"
 import busStops from "./routers/busstop.router"
-
+import messageRoutes from "./routers/messages.router"
+import { Server } from "socket.io";
 
 
 dotenv.config()
@@ -19,16 +20,24 @@ mongoose
   .catch((err) => console.log(err));
 
 const app = express();
-
-const port = process.env.PORT;
-
 app.use(cors());
+const port = process.env.PORT;
 app.use(express.json());
 
+const io = new Server(3000);
+io.on("connection", (socket) => {
+  // ...
+  console.log("io running on 3000");
+  socket.on("message", function (message: any) {
+    console.log(message);
+  });
+
+});
 app.use("/api", busRoutes);
 app.use("/api", userRoutes);
 app.use("/api", busStops)
 app.use("/api", connRoutes)
+app.use("/api", messageRoutes)
 
 app.get("/api", (req: Request, res: Response) => {
   res.json({ message: "Success" });
