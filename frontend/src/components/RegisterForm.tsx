@@ -10,6 +10,7 @@ export default function RegisterForm(): JSX.Element {
     const [email, setEmail] = useState<any>("")
     const [password, setPassword] = useState<any>("")
     const [password2, setPassword2] = useState<any>("")
+    const [image, setImage] = useState<any>("")
     // const [passwordRequirements, setPasswordRequirements] = useState([
     //     {
     //         title: "Хамгийн багадаа 8 тэмдэгттэй байх",
@@ -38,9 +39,9 @@ export default function RegisterForm(): JSX.Element {
     //     },
     // ]);
     function handleSignup(): any {
-        axios.post(`${Utils.API_URL}/user/signup`, { name: name, password: password, email: email })
+        axios.post(`${Utils.API_URL}/user/signup`, { name: name, password: password, email: email, image: image })
             .then(res => {
-                console.log(res.data); if (res.data.status == true) {
+                console.log(res.data); if (res.data.status == true && image != "") {
                     alert("Success")
                     route.push("/page1")
                 }
@@ -104,6 +105,30 @@ export default function RegisterForm(): JSX.Element {
                         <label htmlFor="floating_company" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Company (Ex. Google)</label>
                     </div>
                 </div> */}
+                <div>
+                    <label>Image</label>
+                    <input onChange={(e): any => {
+                        console.log(e.target.value);
+                        const url = "https://api.cloudinary.com/v1_1/dlwizyzqi/upload"
+
+                        const formData = new FormData()
+                        let file = e.target.files[0]
+                        formData.append("file", file)
+                        formData.append("api_key", "796678243292196")
+                        formData.append("folder", "project")
+                        formData.append("upload_preset", "sdvojfor")
+
+                        axios.post(url, formData)
+                            .then((res) => {
+                                console.log(res);
+                                setImage(res.data.secure_url)
+
+                            }
+                            )
+                    }}
+                        type="file"
+                    />
+                </div>
                 <button
                     onClick={(): any => handleSignup()}
                     type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
