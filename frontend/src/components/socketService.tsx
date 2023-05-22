@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { ChatMessage } from '../utils/types';
 import { fromEvent, Observable } from 'rxjs';
@@ -8,26 +8,9 @@ export interface SocketService {
     onMessage(): Observable<ChatMessage>;
     disconnect(): void;
 }
+const socket = io('localhost:3000');
 
-export const SocketContext = createContext<SocketService | null>(null);
-
-export const useSocket = (): SocketService => {
-    const socket = useContext(SocketContext);
-
-    if (!socket) {
-        throw new Error('SocketContext not found');
-    }
-
-    return socket;
-};
-
-const socket = io('localhost:8080');
-
-interface SocketProviderProps {
-    children: ReactNode;
-}
-
-const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
+const SocketProvider = () => {
     const [socketService, setSocketService] = useState<SocketService>({
         send: (message: ChatMessage) => {
             console.log('emitting message: ' + message);
@@ -59,11 +42,6 @@ const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
         };
     }, []);
 
-    return (
-        <SocketContext.Provider value={socketService}>
-            {children}
-        </SocketContext.Provider>
-    );
 };
 
 export default SocketProvider;
