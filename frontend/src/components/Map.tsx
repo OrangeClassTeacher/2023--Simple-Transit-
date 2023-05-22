@@ -5,7 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import SideMenu from "./SideMenu";
 import Utils from "@/utils/utils";
-import { Context } from "@/utils/Context";
+import { Context, userContext } from "@/utils/Context";
 
 const libraries: any = ["places"];
 interface ILOC {
@@ -21,7 +21,9 @@ const Map = (): any => {
     setSideButton(!sideButton)
   }
   const [layerName, setLayerName] = useState("none")
+  const [friendsLocations, setFriendsLocations] = useState([])
   const { setSelectedLocation } = useContext(Context)
+  const { user } = useContext(userContext)
   const [busRouteData, setBusRouteData] = useState<any>(null)
   const [destination, setDestination] = useState<any>(null);
   const [origin, setOrigin] = useState<any>(null)
@@ -74,6 +76,20 @@ const Map = (): any => {
 
       .then((res) => setBusStopData(res.data.result));
   }, []);
+  useEffect(() => {
+    if (user._id) {
+      axios.post(`${Utils.API_URL}/user/getallfriends`, {
+        userId: user._id
+      })
+        .then((res) => {
+          console.log(res.data)
+          setFriendsLocations(res.data.ress)
+        }
+        )
+        .catch((err) => console.log(err)
+        )
+    }
+  }, [user._id])
 
   async function calculateRoute(param: any): Promise<any> {
     if (destinationRef?.current?.value === "") {
@@ -108,11 +124,11 @@ const Map = (): any => {
     setEndDirectionResponse(null)
     console.log(startDirectionResponse);
     console.log(endDirectionResponse);
-    if (directionsRendererRef.current) {
-      directionsRendererRef.current.setMap(null);
-      console.log(directionsRendererRef.current);
+    // if (directionsRendererRef.current) {
+    //   directionsRendererRef.current.setMap(null);
+    //   console.log(directionsRendererRef.current);
 
-    }
+    // }
 
     setMarkerPoints([])
     setInfoWindowPoints([])
@@ -237,6 +253,19 @@ const Map = (): any => {
             anchor: new window.google.maps.Point(25, 25),
           }} position={origin}
         />)}
+        {friendsLocations.length > 0 && friendsLocations.map((e: any, i: any) =>
+        (<Marker key={i}
+          icon={{
+            url: e.image,
+            scaledSize: new window.google.maps.Size(25, 30),
+            origin: new window.google.maps.Point(0, 0),
+            anchor: new window.google.maps.Point(25, 25),
+          }}
+          position={{ lat: e.location[0], lng: e.location[1] }}>
+          <InfoWindow position={{ lat: e.location[0], lng: e.location[1] }}>
+            <div>{e.name}</div>
+          </InfoWindow>
+        </Marker>))}
         {startDirectionResponse ? (
           <DirectionsRenderer
 

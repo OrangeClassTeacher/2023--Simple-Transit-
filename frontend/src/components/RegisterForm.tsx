@@ -107,7 +107,7 @@ export default function RegisterForm(): JSX.Element {
                 </div> */}
                 <div>
                     <label>Image</label>
-                    <input onChange={(e): any => {
+                    <input onChange={(e: any): any => {
                         console.log(e.target.value);
                         const url = "https://api.cloudinary.com/v1_1/dlwizyzqi/upload"
 

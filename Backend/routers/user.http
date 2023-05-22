@@ -12,7 +12,7 @@ post http://localhost:9000/api/user/getallfriends
 Content-Type: application/json
 
 {
-    "userId":"64657d792ac7e347e03945c4"
+    "userId":"6467242e79601e61e1a34a93"
 }
 
 ###

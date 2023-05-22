@@ -8,7 +8,7 @@ import userRoutes from "./routers/user.router"
 import busStops from "./routers/busstop.router"
 import messageRoutes from "./routers/messages.router"
 import { Server } from "socket.io";
-
+import { WebSocketServer } from "ws";
 
 dotenv.config()
 
@@ -24,8 +24,8 @@ app.use(cors());
 const port = process.env.PORT;
 app.use(express.json());
 
-const io = new Server(3000);
-io.on("connection", (socket) => {
+const server = new WebSocketServer({ port: 3000 });
+server.on("connection", (socket: any) => {
   // ...
   console.log("io running on 3000");
   socket.on("message", function (message: any) {

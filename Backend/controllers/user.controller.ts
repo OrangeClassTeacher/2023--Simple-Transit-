@@ -91,7 +91,7 @@ const getAllNotFriends = async (req: Request, res: Response) => {
                             { recipient: new mongoose.Types.ObjectId(userId?.toString()) }
                         ]
                     },
-                    { status: "accepted" }]
+                    { status: "pending" }]
             }
         },
         { $group: { _id: "$recipient" } }])
