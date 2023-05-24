@@ -27,6 +27,7 @@ export default function SideMenu({
     setMarkerPoints,
     setInfoWindowPoints,
     infoWindowPoints,
+    map,
     setDirectionsResponse,
     setStartDirectionResponse,
     setEndDirectionResponse
@@ -91,9 +92,10 @@ export default function SideMenu({
 
                                 setMarkerPoints,
                                 setInfoWindowPoints,
-                                setDirectionsResponse,
-                                setStartDirectionResponse,
-                                setEndDirectionResponse
+                                map
+                                // setDirectionsResponse,
+                                // setStartDirectionResponse,
+                                // setEndDirectionResponse
                             )}>
                             <Image
                                 src="/bus-icon.jpg"

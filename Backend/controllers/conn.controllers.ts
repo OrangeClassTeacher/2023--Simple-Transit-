@@ -17,5 +17,14 @@ const createFriends = async (req: Request, res: Response) => {
         res.json({ status: false, message: error })
     }
 }
+const getAll = async (req: Request, res: Response) => {
+    try {
+        const result = await Conn.find({})
+        res.json({ status: true, result })
+    } catch (error) {
+        res.json({ status: false, message: error })
+        return
+    }
+}
 
-export { createFriends };
+export { createFriends, getAll };
