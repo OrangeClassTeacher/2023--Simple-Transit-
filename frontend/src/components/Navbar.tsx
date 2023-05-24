@@ -41,7 +41,7 @@ export const Navbar = (): JSX.Element => {
                     </Link>
                 </div>
                 <div className="navbar-buttons ">
-                    <Link href="/page1" className="text-gray-600">
+                    <Link href="/page1" className={"text-gray-600"}>
                         BUS
                     </Link>
                     {checkLogin ? (<Link href="/People" className="text-gray-600">
