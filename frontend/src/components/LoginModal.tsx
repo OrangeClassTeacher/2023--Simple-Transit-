@@ -75,7 +75,7 @@ export default function LoginModal({ login, setLogin }: { login: boolean, setLog
                                     id="password"
                                     value={password}
                                     onChange={(e): any => setPassword(e.target.value)}
-                                    placeholder="Нууц үг" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+                                    placeholder="Нууц үгээ оруулна уу" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
                             </div>
                             <div className="flex justify-between">
 
