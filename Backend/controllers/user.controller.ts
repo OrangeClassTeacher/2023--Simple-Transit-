@@ -29,9 +29,9 @@ const addLocationField = async (req: Request, res: Response) => {
 const Signup = async (req: Request, res: Response) => {
 
     try {
-        const { name, email, password, image } = req.body
+        const { name, email, password, image, location } = req.body
         const newPassword = await bcrypt.hash(password, saltRounds);
-        const result = await User.create({ name, email, password: newPassword, image });
+        const result = await User.create({ name, email, password: newPassword, image, location });
 
         res.json({ status: true, message: "success", result })
 

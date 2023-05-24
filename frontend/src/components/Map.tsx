@@ -422,7 +422,7 @@ const Map = (): any => {
       </GoogleMap>
       <div className="absolute" style={{ top: 0, left: 0 }}>
         <button type="button" onClick={menuButton} className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-          {router.pathname == "/page1" ? (<h1>Direction</h1>) : (<h1>Search friends</h1>)}
+          {router.pathname == "/page1" ? (<h1>Чиглэл</h1>) : (<h1>Найзаа Хайх</h1>)}
         </button>
       </div>
       <SideMenu sideButton={sideButton}

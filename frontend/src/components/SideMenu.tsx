@@ -60,7 +60,7 @@ export default function SideMenu({
     return (
         <div className='absolute' style={{ top: 0, left: 0 }}>
             <div id="drawer-disabled-backdrop" className={`${ds} absolute z-40 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white w-80 dark:bg-gray-800`} aria-labelledby="drawer-disabled-backdrop-label">
-                {router.pathname == "/page1" ? (<h5 id="drawer-disabled-backdrop-label" className="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">Direction</h5>) : (<h5 id="drawer-disabled-backdrop-label" className="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">Search Friends</h5>)}
+                {router.pathname == "/page1" ? (<h5 id="drawer-disabled-backdrop-label" className="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">Чиглэл</h5>) : (<h5 id="drawer-disabled-backdrop-label" className="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">Найзаа хайх</h5>)}
                 < button onClick={(): any => setSideButton(!sideButton)} type="button" data-drawer-hide="drawer-disabled-backdrop" aria-controls="drawer-disabled-backdrop" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" >
 
                     <span className="sr-only" >Close menu</span>
@@ -125,10 +125,10 @@ export default function SideMenu({
                     </div>
                     <div className='mt-2 flex justify-center'>
                         <button className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800' onClick={(): any => calculateRoute("WALKING")}>
-                            Calculate route
+                            Чиглэл тооцоолох
                         </button>
                         <button className='text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700' onClick={(): any => clearRoute()}>
-                            Clear routes
+                            Чиглэл арилгах
                         </button>
                     </div>
 
@@ -176,14 +176,14 @@ export default function SideMenu({
                                 onChange={(e): any => setUserSearch(e.target.value)}
                             />
                             <button className='text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' onClick={(): any => filterFriends()}>
-                                Search
+                                Хайх
                             </button>
                         </div>
                         {
                             userData && userData.map((e: any, i: any) => (
                                 <div className='flex justify-between mt-2' key={i}>
                                     {e.name}
-                                    <button className='px-3 py-2 text-xs text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2' onClick={(): any => addFriend(e._id)} >Add friend</button>
+                                    <button className='px-3 py-2 text-xs text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2' onClick={(): any => addFriend(e._id)} >Найзаар нэмэх</button>
                                 </div>
                             ))
 

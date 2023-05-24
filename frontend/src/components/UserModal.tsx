@@ -31,25 +31,25 @@ export default function UserModal({ modal, setModal }: { modal: boolean, setModa
                 <div className='border-b'>
                     <ul>
                         <li>
-                            <a href="#" className='px-4 py-2 hover:bg-gray-100 flex'>Chat</a>
+                            <a href="#" className='px-4 py-2 text-black hover:bg-gray-100 flex'>Chat</a>
                         </li>
                         <li>
-                            <a href="#" className='px-4 py-2 hover:bg-gray-100 flex'>Friends</a>
+                            <a href="#" className='px-4 py-2 text-black hover:bg-gray-100 flex'>Friends</a>
                         </li>
                         <li>
-                            <a href="#" className='px-4 py-2 hover:bg-gray-100 flex'>Privace and Policy</a>
+                            <a href="#" className='px-4 py-2 text-black hover:bg-gray-100 flex'>Privace and Policy</a>
                         </li>
                         <li>
-                            <a href="#" className='px-4 py-2 hover:bg-gray-100 flex'>Help center</a>
+                            <a href="#" className='px-4 py-2 text-black hover:bg-gray-100 flex'>Help center</a>
                         </li>
                         <li>
-                            <a href="#" className='px-4 py-2 hover:bg-gray-100 flex'>Settings</a>
+                            <a href="#" className='px-4 py-2 text-black hover:bg-gray-100 flex'>Settings</a>
                         </li>
                     </ul>
                 </div>
                 <div className="">
                     <button onClick={(): any => handleLogout()} className="w-full px-4 py-2 pb-4 bg-red-700 hover:bg-red-500 flex">
-                        <p className="text-lg font-medium text-white leading-none mx-auto ps-auto"> Logout
+                        <p className="text-lg font-medium text-white leading-none mx-auto ps-auto"> Системээс Гарах
                         </p>
                     </button>
                 </div>

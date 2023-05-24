@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
-// import SessionProvider from 'next-auth/react'
 import { Context } from '@/utils/Context'
 import { userContext } from '@/utils/Context'
 import { loginContext } from '@/utils/Context'
+import RegisterForm from '@/components/RegisterForm'
 export default function App({ Component, pageProps }: AppProps): JSX.Element {
   const [selectedLocation, setSelectedLocation] = useState<any>([]);
   const [user, setUser] = useState<any>({ name: "", email: "" })
@@ -15,6 +15,7 @@ export default function App({ Component, pageProps }: AppProps): JSX.Element {
         <userContext.Provider value={{ user, setUser }}>
           <loginContext.Provider value={{ checkLogin, setCheckLogin }}>
             <Component {...pageProps} />
+            {/* <RegisterForm /> */}
           </loginContext.Provider>
 
         </userContext.Provider>
