@@ -126,4 +126,15 @@ const getAllFriends = async (req: Request, res: Response) => {
     }
 }
 
-export { Login, Signup, getAllNotFriends, getAllFriends, addLocationField }
+const getOneFriend = async (req: Request, res: Response) => {
+    try {
+        const { userId } = req.body
+        const result = await User.find({ _id: userId })
+        res.json({ status: true, result })
+    } catch (error) {
+        res.json({ status: false, message: error })
+        return
+    }
+}
+
+export { Login, Signup, getAllNotFriends, getAllFriends, addLocationField, getOneFriend }

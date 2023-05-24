@@ -1,13 +1,38 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
-export const Message = ({ messages }: any) => {
-    console.log(messages);
+export const Message = ({ messages, time, id1, id2, sender }: any) => {
+    console.log("message and time", messages, time);
+    const name = localStorage.getItem("name")
+    const timeArr = time.map((e: any) => new Date(e))
+    const hourArr = timeArr.map((e: any) => e.getHours())
+    const minutes = timeArr.map((e: any) => e.getMinutes())
+    const [name2, setName2] = useState<any>("")
+    useEffect(() => {
+        console.log("id2", id2);
+        console.log("name", name);
 
+        axios.post("http://localhost:9000/api/user/getone", { userId: id2 })
+            .then((res) => {
+                setName2(res.data.result.name)
+                console.log("name2", res.data.result[0].name)
+            }
+
+            )
+            .catch((err) => console.log(err)
+            )
+    }, [id2])
     return (
         <div>
             <ul>
                 {messages.map((msg: any, index: any) => (
-                    <li key={index}>{msg?.data?.text}</li>
+                    <div>
+                        <li key={index}>
+                            {sender[index] == id1 && name}
+                            {sender[index] == id2 && name2}
+                            {msg}{msg?.data?.text}  {hourArr[index]}:{minutes[index]}</li>
+
+                    </div>
                 ))}
             </ul>
         </div>
