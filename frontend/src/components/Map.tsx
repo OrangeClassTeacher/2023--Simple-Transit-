@@ -1,11 +1,13 @@
-
+import { ChatContainer } from "@/components/chatContainer";
 import React, { useState, useRef, useCallback, useEffect, useContext } from "react";
-import { GoogleMap, useLoadScript, InfoWindow, DirectionsRenderer, Marker } from "@react-google-maps/api";
+import { GoogleMap, useLoadScript, InfoWindowF, DirectionsRenderer, Marker, MarkerF } from "@react-google-maps/api";
 import axios from "axios";
 import { useRouter } from "next/router";
 import SideMenu from "./SideMenu";
 import Utils from "@/utils/utils";
 import { Context, userContext } from "@/utils/Context";
+import Link from 'next/link';
+
 
 const libraries: any = ["places"];
 interface ILOC {
@@ -14,6 +16,56 @@ interface ILOC {
 }
 
 const Map = (): any => {
+
+  const [id, setId]: any = useState(null)
+  const [selectChannel, setSelectChannel]: any = useState("global-welcome");
+  const [friends, setFriends]: any = useState(null)
+  useEffect(() => {
+    const userId: any = localStorage.getItem("id")
+    setId(userId)
+    if (userId) {
+      console.log("user", userId);
+
+      axios.post("http://localhost:9000/api/user/getallfriends", { userId: userId })
+        .then((res) => {
+          const newArr = res.data.ress.map((e: any) => (e._id))
+          console.log("newArr", newArr);
+
+          setFriends(newArr)
+        })
+        .catch((err) => console.log(err)
+        )
+    }
+  }, [])
+  const generateChannelName = (user1Id: any, user2Id: any) => {
+    const sortedUserIds = [user1Id, user2Id].sort();
+    return `${sortedUserIds[0]}_${sortedUserIds[1]}`;
+  };
+  const channels: any = friends !== null ? friends.map((e: any): any => {
+    return generateChannelName(id, e)
+  }) : (null)
+
+  const selectChannelFunc = (evt: any, channel: any) => {
+    evt.preventDefault();
+    setSelectChannel(channel);
+  };
+  const channelListItems = channels !== null ? channels.map((channel: any) => (
+    <li key={channel}>
+      <Link
+        href={`/channels/${channel}`}
+        onClick={(evt) => {
+          selectChannelFunc(evt, channel);
+        }}
+      >
+        {channel}
+      </Link>
+    </li>
+  )) : (
+    <li>
+      Loading
+    </li>
+  )
+
 
   const router = useRouter()
   const [sideButton, setSideButton] = useState<boolean>(false)
@@ -47,6 +99,7 @@ const Map = (): any => {
   const startDirectionRendererRef: any = useRef(null);
   // const endDirectionRendererRef: any = useRef(null);
   const directionsRendererRef: any = useRef(null);
+  const [selectedMarker, setSelectedMarker] = useState(null);
   const { isLoaded, loadError }: any = useLoadScript({
     googleMapsApiKey: process.env.NEXT_GOOGLE_API_KEY as string,
     libraries: libraries
@@ -105,33 +158,20 @@ const Map = (): any => {
     setDirectionsResponse(result)
   }
 
-  // const [directions, setDirections] = useState(null);
-  // const handleDirectionsLoad = (directions:any) => {
-  //   setDirections(directions);
-  // };
-  // const handleDirectionsUnmount = () => {
-  //   if (directionsRendererRef.current) {
-  //     directionsRendererRef.current.setDirections(null);
-  //   }
-  // };
+
   function clearRoute(): any {
     setDirectionsResponse(null)
-    originRef.current.value = "",
-      destinationRef.current.value = ""
+    originRef.current.value = ""
+    destinationRef.current.value = ""
     setOrigin(null)
     setDestination(null)
     setStartDirectionResponse(null)
     setEndDirectionResponse(null)
     console.log(startDirectionResponse);
     console.log(endDirectionResponse);
-    // if (directionsRendererRef.current) {
-    //   directionsRendererRef.current.setMap(null);
-    //   console.log(directionsRendererRef.current);
-
-    // }
-
     setMarkerPoints([])
     setInfoWindowPoints([])
+
 
   }
 
@@ -222,6 +262,38 @@ const Map = (): any => {
   if (!isLoaded) return <p>Error loading maps</p>;
 
 
+  const handleMarkerClick = (marker: any, id1: any, id2: any) => {
+    setSelectedMarker(marker);
+    const newChannel = generateChannelName(id1, id2)
+    setSelectChannel(newChannel)
+  };
+
+  const handleInfoWindowClose = () => {
+    setSelectedMarker(null);
+  };
+
+  const renderInfoWindow = (position: any, name: any) => {
+    return (
+      <InfoWindowF position={position} onCloseClick={handleInfoWindowClose}>
+        <div>
+          <div className="p-6">
+            <h1>{name}</h1>
+            <h1>Channel list</h1>
+            <div className="flex">
+              <div className="w-1/4">{channelListItems}</div>
+              <div className="w-3/4 bg-gray-400 w-full">
+                <ChatContainer selectChannel={selectChannel} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </InfoWindowF>
+    );
+  };
+
+
+
+
   return (
 
     <div style={{ position: "relative" }}>
@@ -232,9 +304,11 @@ const Map = (): any => {
         onClick={onMapClick}
         onLoad={handleMapLoad}
       >
-        {/* {directionsResponse && (<DirectionsRenderer directions={directionsResponse} />)} */}
-        {currentLocation && (<Marker position={{ lat: currentLocation.lat, lng: currentLocation.lng, }} />)}
-        {currentLocation && (<InfoWindow position={currentLocation}><h1>Current Location = {place}</h1></InfoWindow>)}
+        {directionsResponse && (<DirectionsRenderer directions={directionsResponse} />)}
+        {currentLocation && (<Marker position={{ lat: currentLocation.lat, lng: currentLocation.lng, }}>
+          <InfoWindowF position={currentLocation}><h1>Current Location = {place}</h1>
+          </InfoWindowF></Marker>)}
+        \
         {center && (<Marker position={{ lat: center.lat, lng: center.lng }} />)}
         {destination && (<Marker
           icon={{
@@ -253,19 +327,9 @@ const Map = (): any => {
             anchor: new window.google.maps.Point(25, 25),
           }} position={origin}
         />)}
-        {friendsLocations.length > 0 && friendsLocations.map((e: any, i: any) =>
-        (<Marker key={i}
-          icon={{
-            url: e.image,
-            scaledSize: new window.google.maps.Size(25, 30),
-            origin: new window.google.maps.Point(0, 0),
-            anchor: new window.google.maps.Point(25, 25),
-          }}
-          position={{ lat: e.location[0], lng: e.location[1] }}>
-          {/* <InfoWindow position={{ lat: e.location[0], lng: e.location[1] }}>
-            <div>{e.name}</div>
-          </InfoWindow> */}
-        </Marker>))}
+
+
+
         {startDirectionResponse ? (
           <DirectionsRenderer
 
@@ -317,11 +381,26 @@ const Map = (): any => {
                 ],
               },
               suppressMarkers: true,
+              draggable: false
             }}
           />
         ) : null}
+        {friendsLocations.length > 0 && friendsLocations.map((e: any, i: any) =>
+        (<MarkerF key={i}
+          icon={{
+            url: e.image,
+            scaledSize: new window.google.maps.Size(25, 30),
+            origin: new window.google.maps.Point(0, 0),
+            anchor: new window.google.maps.Point(25, 25),
+          }}
+          position={{ lat: e.location[0], lng: e.location[1] }}
+          onClick={() => handleMarkerClick(e, id, e._id)}
 
-        {directionsResponse ? (
+        >
+          {selectedMarker === e && renderInfoWindow({ lat: e.location[0], lng: e.location[1] }, e.name)}
+
+        </MarkerF>))}
+        {/* {directionsResponse ? (
           <DirectionsRenderer
 
             ref={directionsRendererRef}
@@ -334,10 +413,10 @@ const Map = (): any => {
               suppressMarkers: true,
             }}
           />
-        ) : null}
+        ) : null} */}
         {markerPoints.length > 0 && markerPoints.map((e, i) => (
           <Marker key={i} position={e}>
-            <InfoWindow position={e}><div>{infoWindowPoints[i].stopName}</div></InfoWindow>
+            <InfoWindowF position={e}><div>{infoWindowPoints[i].stopName}</div></InfoWindowF>
           </Marker>
         ))}
       </GoogleMap>

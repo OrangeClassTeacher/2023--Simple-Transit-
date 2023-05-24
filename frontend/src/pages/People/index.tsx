@@ -1,10 +1,9 @@
-import { Layout } from '@/components/Layout'
 import Map from '@/components/Map'
-import React from 'react'
 
+import { Layout } from "@/components/Layout";
 
 export default function index(): JSX.Element {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+
 
 
     return (

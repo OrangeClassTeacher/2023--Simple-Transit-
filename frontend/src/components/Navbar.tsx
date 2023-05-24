@@ -42,9 +42,9 @@ export const Navbar = (): JSX.Element => {
                         <img src="logo.png" alt="Logo" width={50} height={50} />
                     </Link>
                 </div>
-                <div className="navbar-buttons flex">
-                    <Link href="/page1" >
-                        <p className={router.pathname == "/page1" ? "activatedPath text-white" : "text-gray-600 text-white"}>Нийтийн Тээвэр</p>
+                <div className="navbar-buttons ">
+                    <Link href="/page1" className={"text-gray-600"}>
+                        BUS
                     </Link>
                     {checkLogin ? (<Link href="/People">
                         <p className={router.pathname == "/People" ? "activatedPath text-white" : "text-gray-600 text-white"}>Хайгуул</p>
