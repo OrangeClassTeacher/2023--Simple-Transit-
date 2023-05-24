@@ -40,7 +40,7 @@
   .button1 {
     border-radius: 20px;
     border: solid rgb(66, 168, 249) 1px;
-    color: rgb(66, 168, 249);
+    color: white;
     text-align: center;
     width: 300px;
     font-size: 32px;
@@ -71,7 +71,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #ffffff;
+  background-color: rgb(66, 168, 249);
+  color: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 1rem;
 }
@@ -84,7 +85,7 @@
 .navbar-buttons a {
   margin: 0 5rem;
   font-size: 1.25rem;
-  color: rgb(66, 168, 249);
+  color: white;
 }
 
 .navbar-profile img {
@@ -124,4 +125,15 @@
   margin: auto 1.5rem;
   margin-left: 0;
 
+}
+
+
+.activatedPath {
+  border: 1px solid rgb(66, 168, 249);
+  border-radius: 30px;
+  background-color: white;
+  color: rgb(66, 168, 249);
+  padding: 5px;
+  box-shadow: 1px 2px 3px rgb(66, 168, 249);
+  transition: 2s;
 }
