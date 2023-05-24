@@ -10,8 +10,8 @@ export default function Home(): JSX.Element {
   return (
     <main className="landing flex item-center justify-center mx-auto">
       <div className="flex flex-col justify-around ">
-        <div className="image_div">
-          <Image
+
+        {/* <Image
             src="/logo.png"
             alt="image"
 
@@ -19,16 +19,17 @@ export default function Home(): JSX.Element {
             sizes="(max-width: 768px) 500px,
                     (max-width: 1200px) 500px,
                     500px
-                    "/>
-        </div>
+                    "/> */}
+        <img className="image_div land" src="/logo.png" alt="logo" />
 
-        <h1 id="text" className="text-blue-500 text-6xl blue1">SIMPLE TRANSIT</h1>
 
-        <Link className="button1" href={"/page1"}>
+        <h1 id="text" className="land text-blue-500 text-6xl blue1">SIMPLE TRANSIT</h1>
+
+        <Link className="land button1" href={"/page1"}>
           Get started !
         </Link>
       </div>
 
-    </main>
+    </main >
   )
 }

@@ -61,9 +61,11 @@
   }
 
   .image_div {
-    position: relative;
+    position: absolute;
+    z-index: -1;
     width: 300px;
-    height: 300px;
+    height: 200px;
+    margin: auto;
   }
 }
 
@@ -136,4 +138,47 @@
   padding: 5px;
   box-shadow: 1px 2px 3px rgb(66, 168, 249);
   transition: 2s;
+}
+
+.land {
+  margin: auto;
+  text-align: center;
+}
+
+.regContainer {
+  border-radius: 20px;
+  width: 70%;
+  margin: auto;
+  display: flex;
+  box-shadow: 0 0 10px 5px rgb(138, 211, 255);
+}
+
+.logoImg {
+  height: 200px;
+}
+
+.adItem {
+  display: flex;
+  width: 40%;
+  background-color: rgb(66, 168, 249);
+  border-radius: 0 20px 20px 0;
+}
+
+.sideAd {
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  margin: auto 50px;
+
+
+}
+
+.mainItem {
+  width: 60%;
+}
+
+.regForm {
+  margin: auto;
+  padding: 50px;
 }
