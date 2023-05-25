@@ -42,6 +42,7 @@ export default function RegisterForm(): JSX.Element {
     function handleSignup(): any {
         if (name == "" || password == "" || password2 == "" || email == "") {
             alert("Утга оруулна уу!")
+            return
         }
         {
             if (selectedLocation && password == password2) {

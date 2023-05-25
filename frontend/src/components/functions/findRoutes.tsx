@@ -41,7 +41,15 @@ async function findRoutes(origin: any, destination: any, busRoutesData: any, bus
             }
         });
     });
+    if (stopsWithinWalkingDistanceToStart.length == 0) {
+        alert("Таны оруулсан газар луу яваx чиглэл манай санд одоогийн байдлаар байxгүй байна!")
+        return
+    }
 
+    if (stopsWithinWalkingDistanceToEnd.length == 0) {
+        alert("Таны оруулсан газар луу яваx чиглэл манай санд одоогийн байдлаар байxгүй байна!")
+        return
+    }
     busRoutesData.forEach((route: any) => {
         const stops = route.busStopDetails.map((stop: any) => stop.busStopName);
 
