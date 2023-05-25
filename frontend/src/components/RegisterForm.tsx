@@ -40,20 +40,22 @@ export default function RegisterForm(): JSX.Element {
     //     },
     // ]);
     function handleSignup(): any {
-        console.log(selectedLocation);
+        if (name == "" || password == "" || password2 == "" || email == "") {
+            alert("Утга оруулна уу!")
+        }
         {
             if (selectedLocation && password == password2) {
 
                 axios.post(`${Utils.API_URL}/user/signup`, { name: name, password: password, email: email, image: image, location: selectedLocation })
                     .then(res => {
-                        console.log(res.data); if (res.data.status == true && image != "") {
-                            alert("Success")
+                        if (res.data.status == true && image != "") {
+                            alert("Бүртгэл амжилттай")
                             route.push("/page1")
                         }
                     })
                     .catch(err => {
                         console.log(err);
-                        alert("Fail")
+                        alert("Бүртгүүлэхэд алдаа гарлаа")
                     })
             } else {
                 alert("Бүртгүүлэхэд алдаа гарлаа")
@@ -142,7 +144,11 @@ export default function RegisterForm(): JSX.Element {
                         </div>
                         <button
                             onClick={(): any => handleSignup()}
-                            type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
+                            type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Бүртгүүлэx</button>
+
+                        <button onClick={() => route.push("/page1")} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
+                            Буцаx
+                        </button>
                     </div>
 
                 </div>

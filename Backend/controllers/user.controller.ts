@@ -11,20 +11,7 @@ interface IUser {
     email: string;
     password: string;
 }
-const addLocationField = async (req: Request, res: Response) => {
-    try {
-        const users = await User.find({});
-        users.forEach(async (user) => {
-            user.location = []; // Set an empty array for the location field
-            await user.save();
 
-        });
-        res.json({ status: true, users })
-    } catch (error) {
-        res.json({ status: false, message: error })
-        return
-    }
-}
 
 const Signup = async (req: Request, res: Response) => {
 
@@ -40,12 +27,11 @@ const Signup = async (req: Request, res: Response) => {
         const result = await User.create({ name, email, password: newPassword, image, location });
 
         res.json({ status: true, message: "success", result })
-
+        return
     }
     catch (err) {
-        console.log(err);
-
         res.json({ status: "false", message: err })
+        return
     }
 
 
@@ -53,7 +39,7 @@ const Signup = async (req: Request, res: Response) => {
 
 const Login = async (req: Request, res: Response) => {
     try {
-        console.log(req.body);
+
 
         const { email, password, location } = req.body
         let user: any = await User.findOne({ email: email })
@@ -80,6 +66,7 @@ const Login = async (req: Request, res: Response) => {
     }
     catch (err) {
         res.json({ status: false, message: err })
+        return
     }
 }
 
@@ -122,7 +109,6 @@ const getAllNotFriends = async (req: Request, res: Response) => {
 const getAllFriends = async (req: Request, res: Response) => {
     try {
         const { userId } = req.body
-        console.log(userId);
 
         const result = await Conn.aggregate([{ $match: { requester: new mongoose.Types.ObjectId(userId?.toString()) } }, { $group: { _id: "$recipient" } }])
         const ress = await User.find({ $and: [{ _id: { $in: result } }, { _id: { $nin: userId } }] })
@@ -143,4 +129,4 @@ const getOneFriend = async (req: Request, res: Response) => {
     }
 }
 
-export { Login, Signup, getAllNotFriends, getAllFriends, addLocationField, getOneFriend }
+export { Login, Signup, getAllNotFriends, getAllFriends, getOneFriend }
