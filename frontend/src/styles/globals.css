@@ -150,6 +150,8 @@
   width: 70%;
   margin: auto;
   display: flex;
+  align-self: center;
+  margin-top: 6rem;
   box-shadow: 0 0 10px 5px rgb(138, 211, 255);
 }
 
@@ -166,7 +168,7 @@
 
 .sideAd {
   width: 100%;
-  height: 100%;
+  height: 40%;
   justify-content: center;
   align-items: center;
   margin: auto 50px;
@@ -181,4 +183,60 @@
 .regForm {
   margin: auto;
   padding: 50px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+}
+
+.banner {
+  background-color: rgb(66, 168, 249);
+  height: 20vh;
+  width: 100vw;
+  padding-left: 30px;
+
+}
+
+.profileBody {
+
+  height: 100vh;
+  width: 100vw;
+  padding-left: 30px;
+}
+
+.profItem {
+  width: 150px;
+
+}
+
+.profileBody img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 10px solid white;
+  margin-top: -70px;
+  z-index: 99;
+  background-color: orange;
+
+}
+
+.mainBody {
+  display: flex;
+
+
+
+}
+
+.upImgBtn {
+  background-color: rgb(66, 168, 249);
+  /* color: rgb(66, 168, 249); */
+}
+
+.logText {
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  text-align: center;
 }

@@ -53,11 +53,17 @@ export const ChatContainer = ({ selectChannel }: any) => {
     };
 
     return (
-        <div className="p-2 h-40">
-            Connected to {selectChannel}
-            <Message messages={history} time={time} id1={id1} id2={id2} sender={sender} />
-            <ChatInput sendMessage={sendMessage} />
+        <div>
+            <div className="flex">
+                <img src="/logo.png" alt="prof" width={70} height={70} />
+                <h1>Bitaamin</h1>
+            </div>
+            <div className="p-2 h-40">
+                Connected to {selectChannel}
+                <Message messages={history} time={time} id1={id1} id2={id2} sender={sender} />
+                <ChatInput sendMessage={sendMessage} />
 
+            </div>
         </div>
     );
 };
