@@ -41,9 +41,9 @@ const Map = (): any => {
     const sortedUserIds = [user1Id, user2Id].sort();
     return `${sortedUserIds[0]}_${sortedUserIds[1]}`;
   };
-  const channels: any = friends !== null ? friends.map((e: any): any => {
+  const channels: any = friends && friends.map((e: any): any => {
     return generateChannelName(id, e)
-  }) : (null)
+  })
 
   const selectChannelFunc = (evt: any, channel: any) => {
     evt.preventDefault();
@@ -79,7 +79,7 @@ const Map = (): any => {
   const [busRouteData, setBusRouteData] = useState<any>(null)
   const [destination, setDestination] = useState<any>(null);
   const [origin, setOrigin] = useState<any>(null)
-  const [directionsResponse, setDirectionsResponse] = useState<any>(null)
+  const [directionsResponse, setDirectionsResponse] = useState<any>({})
   const originRef: any = useRef<HTMLInputElement>()
   const destinationRef: any = useRef<HTMLInputElement>()
   const [travelmode, setTravelMode] = useState("WALKING")
@@ -88,8 +88,8 @@ const Map = (): any => {
   const [map, setMap] = useState<any>(null);
   const [traffic, setTraffic] = useState<any>();
   const [center, setCenter] = useState<ILOC>();
-  const [startDirectionResponse, setStartDirectionResponse] = useState<any>(null)
-  const [endDirectionResponse, setEndDirectionResponse] = useState<any>(null)
+  const [startDirectionResponse, setStartDirectionResponse] = useState<any>({})
+  const [endDirectionResponse, setEndDirectionResponse] = useState<any>({})
   const autocompleteRefDest: any = useRef(null);
   const autocompleteRefOrigin: any = useRef(null);
   const [currentLocation, setCurrentLocation] = useState<ILOC>()
@@ -148,6 +148,7 @@ const Map = (): any => {
     if (destinationRef?.current?.value === "") {
       return
     }
+    setDirectionsResponse({})
     const directionsService = new google.maps.DirectionsService()
     const result: any = await directionsService.route({
       origin: originRef?.current?.value ? originRef.current.value : currentLocation,
@@ -156,17 +157,22 @@ const Map = (): any => {
       provideRouteAlternatives: true
     })
     setDirectionsResponse(result)
+
+
   }
 
 
-  function clearRoute(): any {
-    setDirectionsResponse(null)
+  function clearRoute() {
+
     originRef.current.value = ""
     destinationRef.current.value = ""
     setOrigin(null)
-    setDestination(null)
     setStartDirectionResponse(null)
     setEndDirectionResponse(null)
+    setDirectionsResponse(null)
+
+    setDestination(null)
+
     console.log(startDirectionResponse);
     console.log(endDirectionResponse);
     setMarkerPoints([])
@@ -278,9 +284,9 @@ const Map = (): any => {
         <div>
           <div className="p-6">
             <h1>{name}</h1>
-            <h1>Channel list</h1>
+
             <div className="flex">
-              <div className="w-1/4">{channelListItems}</div>
+
               <div className="w-3/4 bg-gray-400 w-full">
                 <ChatContainer selectChannel={selectChannel} />
               </div>
@@ -304,11 +310,11 @@ const Map = (): any => {
         onClick={onMapClick}
         onLoad={handleMapLoad}
       >
-        {directionsResponse && (<DirectionsRenderer directions={directionsResponse} />)}
+        {/* {directionsResponse && (<DirectionsRenderer directions={directionsResponse} />)} */}
         {currentLocation && (<Marker position={{ lat: currentLocation.lat, lng: currentLocation.lng, }}>
           <InfoWindowF position={currentLocation}><h1>Current Location = {place}</h1>
           </InfoWindowF></Marker>)}
-        \
+
         {center && (<Marker position={{ lat: center.lat, lng: center.lng }} />)}
         {destination && (<Marker
           icon={{
@@ -334,7 +340,7 @@ const Map = (): any => {
           <DirectionsRenderer
 
             directions={startDirectionResponse}
-            ref={startDirectionRendererRef}
+
             options={{
               map: map,
               polylineOptions: {
@@ -356,10 +362,11 @@ const Map = (): any => {
               suppressMarkers: true,
             }}
           />
-        ) : null}
+        ) : (null)}
 
         {endDirectionResponse ? (
           <DirectionsRenderer
+
             directions={endDirectionResponse}
             ref={directionsRendererRef}
             options={{
@@ -400,7 +407,7 @@ const Map = (): any => {
           {selectedMarker === e && renderInfoWindow({ lat: e.location[0], lng: e.location[1] }, e.name)}
 
         </MarkerF>))}
-        {/* {directionsResponse ? (
+        {directionsResponse ? (
           <DirectionsRenderer
 
             ref={directionsRendererRef}
@@ -413,7 +420,7 @@ const Map = (): any => {
               suppressMarkers: true,
             }}
           />
-        ) : null} */}
+        ) : null}
         {markerPoints.length > 0 && markerPoints.map((e, i) => (
           <Marker key={i} position={e}>
             <InfoWindowF position={e}><div>{infoWindowPoints[i].stopName}</div></InfoWindowF>

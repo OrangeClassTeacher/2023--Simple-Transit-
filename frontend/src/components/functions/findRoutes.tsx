@@ -3,9 +3,9 @@ import { Graph } from "graphlib"
 import { useState } from 'react';
 const { point, distance } = turf;
 
-function findRoutes(origin: any, destination: any, busRoutesData: any, busStopData: any, setMarkerPoints: any, setInfoWindowPoints: any,
-    // setDirectionsResponse: any, setStartDirectionResponse: any, setEndDirectionResponse: any
-    map: any): any {
+async function findRoutes(origin: any, destination: any, busRoutesData: any, busStopData: any, setMarkerPoints: any, setInfoWindowPoints: any,
+    setDirectionsResponse: any, setStartDirectionResponse: any, setEndDirectionResponse: any,
+    map: any): Promise<any> {
 
     const walkingDistance = 0.5;
     const stopsWithinWalkingDistanceToStart: any = [];
@@ -95,10 +95,9 @@ function findRoutes(origin: any, destination: any, busRoutesData: any, busStopDa
 
     setInfoWindowPoints(formattedRoutes[0])
     if (formattedRoutes.length > 0) {
-        console.log(formattedRoutes);
+
         const newStops = formattedRoutes[0].map((e: any) => e.stopName)
-        console.log(newStops);
-        console.log(busStopData);
+
         const newArra = busStopData.filter((e: any) =>
             newStops.includes(e.busStopName))
             .sort((a: any, b: any) => {
@@ -109,117 +108,68 @@ function findRoutes(origin: any, destination: any, busRoutesData: any, busStopDa
         const Arr: any = []
         newArra.map((e: any) => { Arr.push({ lat: e.busStopCoord[0], lng: e.busStopCoord[1] }) })
         setMarkerPoints(Arr)
-        {
+        setStartDirectionResponse({})
+        setEndDirectionResponse({})
+        setDirectionsResponse({})
+        const directionsService = new google.maps.DirectionsService();
 
-            const directionsService = new google.maps.DirectionsService();
+        const startDirectionsRequest = {
+            origin: { lat: origin[0], lng: origin[1] },
+            destination: { lat: Arr[0].lat, lng: Arr[0].lng },
+            travelMode: google.maps.TravelMode.WALKING,
+        };
 
-            const startDirectionsRenderer = new google.maps.DirectionsRenderer({
-                map: map,
-                polylineOptions: {
-                    strokeColor: "#0000FF",
-                    strokeOpacity: 0.7,
-                    strokeWeight: 4,
-                    icons: [
-                        {
-                            icon: {
-                                path: "M 0,-1 0,1",
-                                strokeOpacity: 1,
-                                scale: 4,
-                            },
-                            offset: "0",
-                            repeat: "20px",
-                        },
-                    ],
-                },
-                suppressMarkers: true,
-            });
+        const endDirectionRequest = {
+            origin: { lat: Arr[Arr.length - 1].lat, lng: Arr[Arr.length - 1].lng },
+            destination: { lat: destination[0], lng: destination[1] },
+            travelMode: google.maps.TravelMode.WALKING,
+        };
 
-            const endDirectionsRenderer = new google.maps.DirectionsRenderer({
-                map: map,
-                polylineOptions: {
-                    strokeColor: "#0000FF",
-                    strokeOpacity: 0.7,
-                    strokeWeight: 4,
-                    icons: [
-                        {
-                            icon: {
-                                path: "M 0,-1 0,1",
-                                strokeOpacity: 1,
-                                scale: 4,
-                            },
-                            offset: "0",
-                            repeat: "20px",
-                        },
-                    ],
-                },
-                suppressMarkers: true,
-            });
-            const directionsRenderer = new google.maps.DirectionsRenderer({
-                map: map,
-                polylineOptions: {
-                    strokeColor: "#FF0000",
-                },
-                suppressMarkers: true,
-            });
+        await directionsService.route(startDirectionsRequest, function (response, status) {
+            if (status === google.maps.DirectionsStatus.OK) {
+                setStartDirectionResponse(response);
 
-            startDirectionsRenderer.setDirections(null)
-            endDirectionsRenderer.setMap(null)
-            directionsRenderer.setMap(null)
+                console.log(response);
+            } else {
+                console.log("error", status);
+            }
+        });
 
-            //     const startDirectionsRequest = {
-            //         origin: { lat: origin[0], lng: origin[1] },
-            //         destination: { lat: Arr[0].lat, lng: Arr[0].lng },
-            //         travelMode: google.maps.TravelMode.WALKING,
-            //     };
-
-            //     const endDirectionRequest = {
-            //         origin: { lat: Arr[Arr.length - 1].lat, lng: Arr[Arr.length - 1].lng },
-            //         destination: { lat: destination[0], lng: destination[1] },
-            //         travelMode: google.maps.TravelMode.WALKING,
-            //     };
-
-            //     directionsService.route(startDirectionsRequest, function (response, status) {
-            //         if (status === google.maps.DirectionsStatus.OK) {
-            //             startDirectionsRenderer.setDirections(response);
-            //             console.log(response);
-            //         } else {
-            //             console.log("error", status);
-            //         }
-            //     });
-
-            //     directionsService.route(endDirectionRequest, function (response, status) {
-            //         if (status === google.maps.DirectionsStatus.OK) {
-            //             endDirectionsRenderer.setDirections(response);
-            //         } else {
-            //             console.log("error", status);
-            //         }
-            //     });
+        await directionsService.route(endDirectionRequest, function (response, status) {
+            if (status === google.maps.DirectionsStatus.OK) {
+                setEndDirectionResponse(response);
+            } else {
+                console.log("error", status);
+            }
+        });
 
 
 
-            //     const waypoints = Arr.slice(1, Arr.length - 1).map((coord) => ({
-            //         location: coord,
-            //         stopover: true,
-            //     }));
+        const waypoints = Arr.slice(1, Arr.length - 1).map((coord: any) => ({
+            location: coord,
+            stopover: true,
+        }));
 
-            //     const directionsRequest = {
-            //         origin: Arr[0],
-            //         destination: Arr[Arr.length - 1],
-            //         waypoints: waypoints,
-            //         travelMode: google.maps.TravelMode.DRIVING,
-            //     };
+        const directionsRequest = {
+            origin: Arr[0],
+            destination: Arr[Arr.length - 1],
+            waypoints: waypoints,
+            travelMode: google.maps.TravelMode.DRIVING,
+        };
 
-            //     directionsService.route(directionsRequest, function (response, status) {
-            //         if (status === google.maps.DirectionsStatus.OK) {
-            //             directionsRenderer.setDirections(response);
-
-            //         } else {
-            //             console.log("error", status);
-            //         }
-            //     });
+        await directionsService.route(directionsRequest, function (response, status) {
+            if (status === google.maps.DirectionsStatus.OK) {
+                setDirectionsResponse(response);
+                //  console.log("res", response);
 
 
-        }
+            } else {
+                console.log("error", status);
+            }
+        });
+
+
+
         return formattedRoutes;
     }
 }

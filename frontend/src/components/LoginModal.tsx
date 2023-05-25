@@ -4,7 +4,10 @@ import { userContext } from '@/utils/Context';
 import { loginContext, Context } from '@/utils/Context';
 import Utils from '@/utils/utils';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+
 export default function LoginModal({ login, setLogin }: { login: boolean, setLogin: any }): any {
+    const router = useRouter()
     const ds = login ? "block" : "hidden";
     const { user, setUser } = useContext(userContext)
     const { setCheckLogin } = useContext(loginContext)
@@ -35,7 +38,7 @@ export default function LoginModal({ login, setLogin }: { login: boolean, setLog
                             localStorage.setItem("image", res.data.user.image);
                             localStorage.setItem("id", res.data.user._id);
                             console.log(user);
-
+                            router.push("/page1")
                         }
                         setLogin(false)
 

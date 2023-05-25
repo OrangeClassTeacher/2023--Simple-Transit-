@@ -29,7 +29,13 @@ const addLocationField = async (req: Request, res: Response) => {
 const Signup = async (req: Request, res: Response) => {
 
     try {
+
         const { name, email, password, image, location } = req.body
+        const search = await User.find({ $or: [{ name: name }, { email: email }] })
+        if (search.length > 0) {
+            res.json({ status: false, message: "Already registered" })
+            return
+        }
         const newPassword = await bcrypt.hash(password, saltRounds);
         const result = await User.create({ name, email, password: newPassword, image, location });
 
