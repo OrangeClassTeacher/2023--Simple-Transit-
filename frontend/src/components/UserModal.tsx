@@ -23,7 +23,7 @@ export default function UserModal({ modal, setModal }: { modal: boolean, setModa
                     <p className="pt-2 text-lg font-semibold text-gray-50">{user.name} </p>
                     <p className="text-sm text-gray-100">{user.email}</p>
                     <div className="mt-5">
-                        <a className="border rounded-full py-2 px-4 text-xs font-semibold text-gray-100 cursor-pointer">
+                        <a href='/UserProfile' className="border rounded-full py-2 px-4 text-xs font-semibold text-gray-100 cursor-pointer">
                             Manage your Account
                         </a>
                     </div>
@@ -35,12 +35,6 @@ export default function UserModal({ modal, setModal }: { modal: boolean, setModa
                         </li>
                         <li>
                             <a href="#" className='px-4 py-2 text-black hover:bg-gray-100 flex'>Friends</a>
-                        </li>
-                        <li>
-                            <a href="#" className='px-4 py-2 text-black hover:bg-gray-100 flex'>Privace and Policy</a>
-                        </li>
-                        <li>
-                            <a href="#" className='px-4 py-2 text-black hover:bg-gray-100 flex'>Help center</a>
                         </li>
                         <li>
                             <a href="#" className='px-4 py-2 text-black hover:bg-gray-100 flex'>Settings</a>
