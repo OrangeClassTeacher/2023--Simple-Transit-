@@ -1,8 +1,3 @@
-
-
-
-
-import Image from "next/image"
 import Link from "next/link";
 
 
@@ -20,7 +15,7 @@ export default function Home(): JSX.Element {
                     (max-width: 1200px) 500px,
                     500px
                     "/> */}
-        <img className="image_div land" src="/logo.png" alt="logo" />
+        <img className="image_div land" src="/logo1.png" alt="logo" />
 
 
         <h1 id="text" className="land text-blue-500 text-6xl blue1">SIMPLE TRANSIT</h1>

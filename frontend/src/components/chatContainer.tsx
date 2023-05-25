@@ -5,6 +5,7 @@ import { configureAbly } from "@ably-labs/react-hooks";
 import { nanoid } from "nanoid";
 import { Message } from "./messages";
 import axios from "axios"
+import Utils from "@/utils/utils";
 export const ChatContainer = ({ selectChannel }: any) => {
     const [history, setHistory] = useState<any>([]);
     const [time, setTime] = useState([])
@@ -19,7 +20,7 @@ export const ChatContainer = ({ selectChannel }: any) => {
     });
 
     useEffect(() => {
-        axios.post("http://localhost:9000/api/messages/getall", { userId: id1, receiverId: id2 })
+        axios.post(`${Utils.API_URL}/messages/getall`, { userId: id1, receiverId: id2 })
             .then((res) => {
                 const newArr = res.data.result.map((e: any) => e.content)
                 console.log("history", newArr);
@@ -42,7 +43,7 @@ export const ChatContainer = ({ selectChannel }: any) => {
         await channel.publish("message", { text: messageText });
         console.log("Datas", id1, id2, messageText);
 
-        await axios.post("http://localhost:9000/api/messages/create", {
+        await axios.post(`${Utils.API_URL}/messages/create`, {
             content: messageText,
             sender: id1,
             receiver: id2

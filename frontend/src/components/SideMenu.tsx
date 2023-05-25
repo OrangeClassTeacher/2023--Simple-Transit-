@@ -27,7 +27,6 @@ export default function SideMenu({
     setMarkerPoints,
     setInfoWindowPoints,
     infoWindowPoints,
-    map,
     setDirectionsResponse,
     setStartDirectionResponse,
     setEndDirectionResponse
@@ -58,16 +57,7 @@ export default function SideMenu({
             .catch((err) => console.log(err))
     }
 
-    function TestsetDire(response) {
-        console.log("response ----- ", response);
-        setDirectionsResponse(response)
 
-
-
-        // setDirectionsResponse((prev) => response)
-
-
-    }
     return (
         <div className='absolute' style={{ top: 0, left: 0 }}>
             <div id="drawer-disabled-backdrop" className={`${ds} absolute z-40 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white w-80 dark:bg-gray-800`} aria-labelledby="drawer-disabled-backdrop-label">
@@ -94,19 +84,8 @@ export default function SideMenu({
                             />
                         </button>
                         <button
-                            onClick={(): any => findRoutes(
-                                origin ? [origin.lat(), origin.lng()] : [currentLocation.lat, currentLocation.lng],
-                                destination ? [destination.lat(), destination.lng()] : null,
-                                busRouteData,
-                                busStopData,
-                                setMarkerPoints,
-                                setInfoWindowPoints,
-                                TestsetDire,
-                                setDirectionsResponse,
-                                setStartDirectionResponse,
-                                setEndDirectionResponse,
-
-                            )}>
+                            onClick={(): any => calculateRoute("TRANSIT")}
+                        >
                             <Image
                                 src="/bus-icon.jpg"
                                 alt=""
@@ -134,7 +113,19 @@ export default function SideMenu({
                         </div>
                     </div>
                     <div className='mt-2 flex justify-center'>
-                        <button className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800' onClick={(): any => calculateRoute("TRANSIT")}>
+                        <button className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800'
+                            onClick={(): any => findRoutes(
+                                origin ? [origin.lat(), origin.lng()] : [currentLocation.lat, currentLocation.lng],
+                                destination ? [destination.lat(), destination.lng()] : null,
+                                busRouteData,
+                                busStopData,
+                                setMarkerPoints,
+                                setInfoWindowPoints,
+                                setDirectionsResponse,
+                                setStartDirectionResponse,
+                                setEndDirectionResponse,
+
+                            )}>
                             Чиглэл тооцоолох
                         </button>
                         <button className='text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700' onClick={(): any => clearRoute()}>

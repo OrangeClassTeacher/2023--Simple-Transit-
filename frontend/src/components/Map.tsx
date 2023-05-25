@@ -26,7 +26,7 @@ const Map = (): any => {
     if (userId) {
       console.log("user", userId);
 
-      axios.post("http://localhost:9000/api/user/getallfriends", { userId: userId })
+      axios.post(`${Utils.API_URL}/user/getallfriends`, { userId: userId })
         .then((res) => {
           const newArr = res.data.ress.map((e: any) => (e._id))
           console.log("newArr", newArr);
@@ -149,6 +149,8 @@ const Map = (): any => {
       return
     }
     setDirectionsResponse({})
+    setStartDirectionResponse({})
+    setEndDirectionResponse({})
     const directionsService = new google.maps.DirectionsService()
     const result: any = await directionsService.route({
       origin: originRef?.current?.value ? originRef.current.value : currentLocation,
@@ -338,7 +340,7 @@ const Map = (): any => {
 
         {startDirectionResponse ? (
           <DirectionsRenderer
-
+            ref={startDirectionRendererRef}
             directions={startDirectionResponse}
 
             options={{
@@ -392,7 +394,7 @@ const Map = (): any => {
             }}
           />
         ) : null}
-        {friendsLocations.length > 0 && friendsLocations.map((e: any, i: any) =>
+        {friendsLocations.length > 0 && id && friendsLocations.map((e: any, i: any) =>
         (<MarkerF key={i}
           icon={{
             url: e.image,
@@ -446,7 +448,7 @@ const Map = (): any => {
         calculateRoute={calculateRoute}
         busStopData={busStopData}
         busRouteData={busRouteData}
-        map={map}
+
         origin={origin}
         destination={destination}
         currentLocation={currentLocation}

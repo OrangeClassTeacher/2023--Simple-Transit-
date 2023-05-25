@@ -12,7 +12,7 @@ export default function UserModal({ modal, setModal }: { modal: boolean, setModa
         setCheckLogin(!checkLogin)
         setModal(!modal)
         localStorage.clear()
-        route.push("/page1")
+        route.reload()
     }
     return (
 

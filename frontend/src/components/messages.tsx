@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Utils from "@/utils/utils";
 
 export const Message = ({ messages, time, id1, id2, sender }: any) => {
     console.log("message and time", messages, time);
@@ -13,7 +14,7 @@ export const Message = ({ messages, time, id1, id2, sender }: any) => {
         console.log("id2", id2);
         console.log("name", name);
 
-        axios.post("http://localhost:9000/api/user/getone", { userId: id2 })
+        axios.post(`${Utils}/user/getone`, { userId: id2 })
             .then((res) => {
                 setName2(res.data.result.name)
                 setUser(res.data.result)

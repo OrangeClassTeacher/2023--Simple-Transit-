@@ -1,11 +1,9 @@
 import * as turf from '@turf/turf';
 import { Graph } from "graphlib"
-import { useState } from 'react';
 const { point, distance } = turf;
 
 async function findRoutes(origin: any, destination: any, busRoutesData: any, busStopData: any, setMarkerPoints: any, setInfoWindowPoints: any,
-    setDirectionsResponse: any, setStartDirectionResponse: any, setEndDirectionResponse: any,
-    map: any): Promise<any> {
+    setDirectionsResponse: any, setStartDirectionResponse: any, setEndDirectionResponse: any): Promise<any> {
 
     const walkingDistance = 0.5;
     const stopsWithinWalkingDistanceToStart: any = [];

@@ -15,18 +15,16 @@ export default function LoginModal({ login, setLogin }: { login: boolean, setLog
     const [email, setEmail] = useState<any>('')
     const [password, setPassword] = useState<any>('')
     const [loggedUser, setLoggedUser] = useState<any>([])
-    { selectedLocation.length > 0 && console.log(selectedLocation); }
 
     function handleLogin(e: any): any {
         e.stopPropagation();
 
         if (selectedLocation.length > 0) {
-            console.log(email, password, selectedLocation);
 
             axios.post(`${Utils.API_URL}/user/login`, { email: email, password: password, location: selectedLocation })
                 .then(async (res) => {
                     await setLoggedUser(res.data)
-                    console.log(res.data);
+
 
                     if (res.data.status == true) {
                         await setCheckLogin(true)
@@ -37,13 +35,13 @@ export default function LoginModal({ login, setLogin }: { login: boolean, setLog
                             localStorage.setItem("email", res.data.user.email);
                             localStorage.setItem("image", res.data.user.image);
                             localStorage.setItem("id", res.data.user._id);
-                            console.log(user);
-                            router.push("/page1")
+
+                            router.reload()
                         }
                         setLogin(false)
 
                     }
-                    else alert("Бүртгэлтэй хэрэглэгч байхгүй байна!")
+                    else alert("Хэрэглэгчийн нэр эсвэл нууц үг буруу байна!")
                 })
                 .catch((err) => console.log(err))
         }
