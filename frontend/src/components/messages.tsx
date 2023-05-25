@@ -9,15 +9,15 @@ export const Message = ({ messages, time, id1, id2, sender }: any) => {
     const hourArr = timeArr.map((e: any) => e.getHours())
     const minutes = timeArr.map((e: any) => e.getMinutes())
     const [name2, setName2] = useState<any>("")
-    const [user, setUser] = useState<any>()
+    const [user, setUser] = useState<any>(null)
     useEffect(() => {
         console.log("id2", id2);
         console.log("name", name);
 
-        axios.post(`${Utils}/user/getone`, { userId: id2 })
+        axios.post(`${Utils.API_URL}/user/getone`, { userId: id2 })
             .then((res) => {
-                setName2(res.data.result.name)
-                setUser(res.data.result)
+                setName2(res.data.result[0].name)
+                setUser(res.data.result[0])
                 console.log(user);
 
                 console.log("name2", res.data.result[0].name)
@@ -32,10 +32,19 @@ export const Message = ({ messages, time, id1, id2, sender }: any) => {
             <ul>
                 {messages.map((msg: any, index: any) => (
                     <div>
-                        <li key={index}>
-                            {sender[index] == id1 && name}
-                            {sender[index] == id2 && name2}
-                            {msg}{msg?.data?.text}  {hourArr[index]}:{minutes[index]}</li>
+                        <li key={index} style={{ display: "flex", justifyContent: "space-between" }}>
+                            <div>
+                                {sender[index] !== id1 ? name : name2}
+
+                            </div>
+                            <div>
+                                {msg}{msg?.data?.text}
+                            </div>
+
+                            <div>
+                                {hourArr[index]}:{minutes[index]}
+                            </div>
+                        </li>
 
                     </div>
                 ))}

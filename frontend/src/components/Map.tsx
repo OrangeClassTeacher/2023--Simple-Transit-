@@ -148,9 +148,11 @@ const Map = (): any => {
     if (destinationRef?.current?.value === "") {
       return
     }
+    setMarkerPoints([])
+    setInfoWindowPoints([])
     setDirectionsResponse({})
-    setStartDirectionResponse({})
-    setEndDirectionResponse({})
+    setStartDirectionResponse(null)
+    setEndDirectionResponse(null)
     const directionsService = new google.maps.DirectionsService()
     const result: any = await directionsService.route({
       origin: originRef?.current?.value ? originRef.current.value : currentLocation,
@@ -289,7 +291,7 @@ const Map = (): any => {
 
             <div className="flex">
 
-              <div className="w-3/4 bg-gray-400 w-full">
+              <div className="w-4/4 bg-gray-400 w-full">
                 <ChatContainer selectChannel={selectChannel} />
               </div>
             </div>

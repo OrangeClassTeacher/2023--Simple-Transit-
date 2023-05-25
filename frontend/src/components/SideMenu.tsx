@@ -52,7 +52,7 @@ export default function SideMenu({
             recipient: param,
             status: "pending"
         })
-            .then((res) => { console.log(res.data.result); if (res.data.realStatus == true) { filterFriends } }
+            .then((res) => { console.log(res.data.result); if (res.data.realStatus == true) { router.reload() } }
             )
             .catch((err) => console.log(err))
     }
@@ -144,10 +144,10 @@ export default function SideMenu({
                         </div>)
                     }
 
-                    <div>
+                    {/* <div>
                         Walk
                     </div>
-                    <hr />
+                    <hr /> */}
                     {infoWindowPoints.length > 0 && (
                         <div>
                             {infoWindowPoints[0].stopName}
@@ -157,10 +157,10 @@ export default function SideMenu({
                             {infoWindowPoints[infoWindowPoints.length - 1].stopName}
                         </div>
                     )}
-                    <hr />
+                    {/* <hr />
                     <div>
                         Walk
-                    </div>
+                    </div> */}
                     {destinationRef?.current?.value && (
                         <div>
                             <h1>{destinationRef?.current?.value}</h1>
