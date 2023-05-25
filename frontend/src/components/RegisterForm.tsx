@@ -3,7 +3,6 @@ import axios from "axios"
 import Utils from '@/utils/utils'
 import { useRouter } from 'next/router'
 import { Context } from '@/utils/Context'
-import { log } from 'console'
 
 export default function RegisterForm(): JSX.Element {
     const { selectedLocation } = useContext(Context)
@@ -118,7 +117,7 @@ export default function RegisterForm(): JSX.Element {
                     </div>
                 </div> */}
                         <div>
-                            <label>Image</label>
+                            <label>Зураг оруулна уу </label>
                             <input onChange={(e: any): any => {
                                 console.log(e.target.value);
                                 const url = "https://api.cloudinary.com/v1_1/dlwizyzqi/upload"
@@ -143,15 +142,14 @@ export default function RegisterForm(): JSX.Element {
                         </div>
                         <button
                             onClick={(): any => handleSignup()}
-                            type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                            type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
                     </div>
 
                 </div>
                 <div className='adItem'>
-                    <div className='sideAd rounded-bl-2xl'>
+                    <div className='sideAd rounded-bl-2xl flex flex-col'>
                         <img className='logoImg' src="/logo.png" alt="logo" />
-                        <h3>Easy ways to drive</h3>
-
+                        <h1 className='text-white logText'>Easy ways to drive</h1>
                     </div>
                 </div>
             </div>

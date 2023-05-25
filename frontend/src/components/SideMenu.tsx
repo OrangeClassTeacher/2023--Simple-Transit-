@@ -62,8 +62,7 @@ export default function SideMenu({
             <div id="drawer-disabled-backdrop" className={`${ds} absolute z-40 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white w-80 dark:bg-gray-800`} aria-labelledby="drawer-disabled-backdrop-label">
                 {router.pathname == "/page1" ? (<h5 id="drawer-disabled-backdrop-label" className="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">Чиглэл</h5>) : (<h5 id="drawer-disabled-backdrop-label" className="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">Найзаа хайх</h5>)}
                 < button onClick={(): any => setSideButton(!sideButton)} type="button" data-drawer-hide="drawer-disabled-backdrop" aria-controls="drawer-disabled-backdrop" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" >
-
-                    <span className="sr-only" >Close menu</span>
+                    <img src="/clsBtn.png" alt="clsBtn" width={10} height={10} />
                 </button>
                 {router.pathname == "/page1" ? (<div className="py-4 overflow-y-auto">
                     <div className='flex justify-around border-b-black direcIcons focus:bg-slate-700'>

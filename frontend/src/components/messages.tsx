@@ -8,6 +8,7 @@ export const Message = ({ messages, time, id1, id2, sender }: any) => {
     const hourArr = timeArr.map((e: any) => e.getHours())
     const minutes = timeArr.map((e: any) => e.getMinutes())
     const [name2, setName2] = useState<any>("")
+    const [user, setUser] = useState<any>()
     useEffect(() => {
         console.log("id2", id2);
         console.log("name", name);
@@ -15,6 +16,9 @@ export const Message = ({ messages, time, id1, id2, sender }: any) => {
         axios.post("http://localhost:9000/api/user/getone", { userId: id2 })
             .then((res) => {
                 setName2(res.data.result.name)
+                setUser(res.data.result)
+                console.log(user);
+
                 console.log("name2", res.data.result[0].name)
             }
 
@@ -23,7 +27,7 @@ export const Message = ({ messages, time, id1, id2, sender }: any) => {
             )
     }, [id2])
     return (
-        <div>
+        <div className="flex flex-col">
             <ul>
                 {messages.map((msg: any, index: any) => (
                     <div>
